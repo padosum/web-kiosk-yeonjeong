@@ -1,4 +1,8 @@
 {
+  "scripts": {
+    "start:client": "cd client && npm run start",
+    "start:server": "cd server && npm run start:dev"
+  },
   "devDependencies": {
     "eslint-plugin-prettier": "^4.2.1",
     "prettier": "^2.7.1"
