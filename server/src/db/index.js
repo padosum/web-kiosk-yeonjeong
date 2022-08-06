@@ -1,6 +1,6 @@
 import * as dotenv from 'dotenv';
 
-const mysql = require('mysql');
+const mysql = require('mysql2/promise');
 
 dotenv.config();
 
@@ -11,34 +11,4 @@ let _dbConn = mysql.createPool({
   database: process.env.MYSQL_DB,
 });
 
-console.log(process.env.MYSQL_HOST);
-
-const _dbQuery = (sqlString, values) => {
-  if (!values) values = [];
-
-  return new Promise((resolve, reject) => {
-    _dbConn.query(sqlString, values, (err, results) => {
-      if (err) {
-        reject(err);
-        return;
-      }
-      resolve(results);
-    });
-  });
-};
-
-const _dbQueryOne = (sqlString, values) => {
-  if (!values) values = [];
-
-  return new Promise((resolve, reject) => {
-    _dbConn.query(sqlString, values, (err, results) => {
-      if (err) {
-        reject(err);
-        return;
-      }
-      resolve(results[0]);
-    });
-  });
-};
-
-export { _dbConn, _dbQuery, _dbQueryOne };
+export { _dbConn };
