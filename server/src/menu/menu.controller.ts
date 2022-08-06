@@ -5,8 +5,8 @@ import { MenuService } from './menu.service';
 export class MenuController {
   constructor(private readonly menuService: MenuService) {}
 
-  @Get('/category')
-  getCategory() {
-    return this.menuService.getAllCategory();
+  @Get('/')
+  getAllMenu() {
+    return this.menuService.getAllMenu();
   }
 }

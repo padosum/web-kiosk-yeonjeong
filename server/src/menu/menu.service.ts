@@ -1,11 +1,18 @@
 import { Injectable } from '@nestjs/common';
-import { _dbQuery } from '../db';
+import { _dbConn } from '../db';
 
 @Injectable()
 export class MenuService {
-  private menuCategoryList = ['커피', '라떼', '티', '쥬스', '디카페인'];
+  async getAllMenu() {
+    const conn = await _dbConn.getConnection();
 
-  getAllCategory() {
-    return _dbQuery(`select id, title from MENU_CATEGORY`, []);
+    try {
+      const [menus] = await conn.query(`select id, title from MENU_CATEGORY`);
+      return menus;
+    } catch (e) {
+      throw new Error(e);
+    } finally {
+      conn.release();
+    }
   }
 }
