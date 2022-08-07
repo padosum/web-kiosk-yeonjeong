@@ -13,11 +13,13 @@ export class MenuService {
 
       const allMenu = menu.map((item) => {
         const {
+          price,
           optionId,
           optionDetailId,
           optionTitle,
           optionSurcharge,
         }: {
+          price: string;
           optionId: string;
           optionDetailId: string;
           optionTitle: string;
@@ -25,6 +27,7 @@ export class MenuService {
         } = item;
         return {
           ...item,
+          price: Number(price),
           optionId: optionId?.split(',').map(Number),
           optionDetailId: optionDetailId?.split(',').map(Number),
           optionTitle: optionTitle?.split(','),
