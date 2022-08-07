@@ -7,6 +7,7 @@ const getAllCategory = () => `
 const getAllMenu = () => `
   SELECT M.title
        , M.categoryId
+       , M.price
        , MHO.menuId
        , GROUP_CONCAT(MENU_OPTION_DETAIL.optionId order by MENU_OPTION_DETAIL.optionId) as optionId
        , GROUP_CONCAT(MENU_OPTION_DETAIL.id  order by MENU_OPTION_DETAIL.optionId, MENU_OPTION_DETAIL.id) as optionDetailId
