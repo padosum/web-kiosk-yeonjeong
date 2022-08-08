@@ -157,7 +157,6 @@ function Main() {
   const [payment, setPayment] = useState({})
 
   const paymentId = payment.id
-  console.log({ paymentId })
   const paymentTitle = payment.title
   const paymentAmount = selectMenu.reduce((acc, curr) => acc + curr.price, 0)
   const totalAmount = selectMenu.reduce((acc, curr) => acc + curr.price, 0)

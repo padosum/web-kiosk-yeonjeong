@@ -1,3 +1,5 @@
+import { getTodayDateString } from 'src/util/date';
+
 const getAllCategory = () => `
   SELECT id
        , title 
@@ -17,7 +19,7 @@ const getAllMenu = () => `
                    FROM ORDERS as O
                   INNER JOIN ORDERS_HAS_MENU as OHM
                      ON O.id = OHM.ordersId
-                  WHERE O.dateString = '2022-08-02'
+                  WHERE O.dateString = '${getTodayDateString()}'
                     AND M.id = OHM.menuId
                   GROUP BY OHM.menuId), 0) as salesCnt
     FROM MENU as M

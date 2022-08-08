@@ -10,8 +10,12 @@ const ItemImage = styled.img`
   width: 100%;
   height: 100%;
 `
-const MenuItem = (props) => {
-  const { item, onSelectMenu } = props
+const PopularItem = styled.span`
+  background-color: #e76e55;
+  padding: 0.25rem;
+  color: #fff;
+`
+const MenuItem = ({ item, onSelectMenu, popular }) => {
   const [modalVisible, setModalVisible] = useState(false)
 
   useKeyEscClose(() => onModalVisible(false))
@@ -27,6 +31,7 @@ const MenuItem = (props) => {
   return (
     <>
       <Container title={item.title}>
+        {popular && <PopularItem>🌟 인기</PopularItem>}
         <ItemImage
           src={`images/${item.categoryId}.png`}
           alt="product"
