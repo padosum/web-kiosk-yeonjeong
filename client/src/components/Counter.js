@@ -1,18 +1,22 @@
 import React, { useState, useEffect } from 'react'
 import Input from './Input'
 
-const Counter = ({ onHandleCount }) => {
+const Counter = ({ stop, onHandleCount }) => {
   const [counter, setCounter] = useState(10)
 
   useEffect(() => {
-    const timer =
-      counter > 0 && setInterval(() => setCounter(counter - 1), 1000)
-    return () => {
-      if (counter === 1) {
-        onHandleCount()
+    const interval = setInterval(() => {
+      if (!stop) {
+        if (counter > 0) {
+          setCounter(counter - 1)
+        } else {
+          onHandleCount()
+        }
+      } else {
+        clearInterval(interval)
       }
-      clearInterval(timer)
-    }
+    }, 1000)
+    return () => clearInterval(interval)
   }, [counter])
 
   return <Input value={counter}></Input>

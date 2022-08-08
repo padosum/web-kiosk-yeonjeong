@@ -7,6 +7,10 @@ import Container from './Container'
 import Badge from './Badge'
 import Button from './Button'
 import Counter from './Counter'
+import Payment from './Payment'
+import LoadingIndicator from './LoadingIndicator'
+import Receipt from './Receipt'
+import Input from './Input'
 
 const ItemsLayout = styled.section`
   display: flex;
@@ -16,7 +20,10 @@ const ItemsLayout = styled.section`
 `
 const CashLayout = styled.section`
   display: flex;
+  flex-direction: column;
   grid-area: cash;
+  justify-content: space-around;
+  padding-top: 1rem;
 `
 const CartLayout = styled.section`
   display: flex;
@@ -26,6 +33,7 @@ const CartLayout = styled.section`
   border: 4px solid #353535;
   overflow: scroll;
   padding: 1rem;
+  box-shadow: inset -4px -4px 0px 0px #353535;
 `
 
 const ButtonWrapper = styled.div`
@@ -72,26 +80,22 @@ const SelectItemWrapper = styled.div`
   opacity: 0;
   animation: drop 0.4s linear forwards 0.4s;
 `
-
 const ItemImage = styled.img`
   object-fit: scale-down;
   width: 100%;
   height: 100%;
 `
-
 const OptionWrapper = styled.span`
   text-align: center;
   margin: 0.25rem;
   font-size: 1.25rem;
 `
-
 const PaymentLayout = styled.section`
   display: flex;
   flex-direction: column;
   grid-area: payment;
   justify-content: space-between;
 `
-
 const TimerWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -143,13 +147,28 @@ function Main() {
   let fps = useRef(50)
   let down = useRef(null)
   let up = useRef(null)
-  let intervalId = useRef(null)
 
   const [menu, setMenu] = useState(null)
   const [loading, setLoading] = useState(true)
   const [tabIndex, setTabIndex] = useState(0)
   const [selectMenu, setSelectMenu] = useState([])
   const [errorMessage, setErrorMessge] = useState('')
+  const [step, setStep] = useState('main')
+  const [payment, setPayment] = useState({})
+
+  const paymentId = payment.id
+  console.log({ paymentId })
+  const paymentTitle = payment.title
+  const paymentAmount = selectMenu.reduce((acc, curr) => acc + curr.price, 0)
+  const totalAmount = selectMenu.reduce((acc, curr) => acc + curr.price, 0)
+
+  const handleLoading = () => {
+    setLoading((prevLoading) => !prevLoading)
+  }
+
+  const handleClickPayment = () => {
+    setStep('payment')
+  }
 
   const handleClearMenu = () => {
     setSelectMenu([])
@@ -234,7 +253,11 @@ function Main() {
 
   return (
     <>
-      {loading && <div>로딩중...</div>}
+      {loading && (
+        <LoadingIndicator
+          title={step === 'payment' ? '카드 결제 중' : '잠시 기다려 주세요'}
+        ></LoadingIndicator>
+      )}
       {menu ? (
         <>
           <ItemsLayout>
@@ -258,7 +281,33 @@ function Main() {
               onSelectMenu={handleSelectMenu}
             />
           </ItemsLayout>
-          <CashLayout>결제방식</CashLayout>
+          <CashLayout>
+            <Input
+              title="주문금액"
+              value={totalAmount.toLocaleString()}
+              color="white"
+            ></Input>
+            <Input
+              title="투입금액"
+              value={paymentAmount.toLocaleString()}
+              color="white"
+            ></Input>
+            <Button size="lg" variant="normal" disabled={paymentId !== 1}>
+              500원
+            </Button>
+            <Button size="lg" variant="normal" disabled={paymentId !== 1}>
+              100원
+            </Button>
+            <Button size="lg" variant="normal" disabled={paymentId !== 1}>
+              1,000원
+            </Button>
+            <Button size="lg" variant="normal" disabled={paymentId !== 1}>
+              10,000원
+            </Button>
+            <Button size="lg" variant="warning" disabled={paymentId !== 1}>
+              현금 결제하기
+            </Button>
+          </CashLayout>
           <CartLayout>
             {selectMenu.length > 0 &&
               selectMenu.map((item) => {
@@ -275,7 +324,7 @@ function Main() {
                     </ButtonWrapper>
                     <Container title={item.title}>
                       <ItemImage
-                        src="images/1.png"
+                        src={`images/${item.categoryId}.png`}
                         alt="product item"
                       ></ItemImage>
                       <Badge variant="normal" icon={false}>
@@ -291,21 +340,45 @@ function Main() {
               })}
           </CartLayout>
           <PaymentLayout>
-            {selectMenu.length > 0 && (
+            {selectMenu.length > 0 && step === 'main' && (
               <>
                 <TimerWrapper>
-                  <TimerLabel>남은 시간:</TimerLabel>
-                  <Counter onHandleCount={handleClearMenu}></Counter>
+                  <TimerLabel>남은 시간</TimerLabel>
+                  <Counter
+                    onHandleCount={handleClearMenu}
+                    stop={step !== 'main'}
+                  ></Counter>
                 </TimerWrapper>
                 <Button size="lg" variant="normal" onClick={handleClearMenu}>
                   전체 취소
                 </Button>
-                <Button size="lg" variant="success">
+                <Button
+                  size="lg"
+                  variant="success"
+                  onClick={handleClickPayment}
+                >
                   결제하기
                 </Button>
               </>
             )}
           </PaymentLayout>
+          {step === 'payment' && (
+            <Payment
+              onHandleLoading={handleLoading}
+              setStep={setStep}
+              setPayment={setPayment}
+            ></Payment>
+          )}
+          {step === 'reciept' && (
+            <Receipt
+              orderNum={1}
+              orderMenu={selectMenu}
+              paymentId={paymentId}
+              paymentTitle={paymentTitle}
+              paymentAmount={paymentAmount}
+              totalAmount={totalAmount}
+            ></Receipt>
+          )}
         </>
       ) : (
         <div>{errorMessage}</div>

@@ -4,20 +4,9 @@ import Badge from './Badge'
 import Button from './Button'
 import Input from './Input'
 import Container from './Container'
+import Modal from './Modal'
 
-const ModalOverlay = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: 1;
-  background-color: rgba(0, 0, 0, 0.65);
-`
-const Modal = styled.div`
+const DetailLayout = styled.div`
   display: grid;
   gap: 0.5rem;
   grid-template-columns: 150px auto;
@@ -25,12 +14,20 @@ const Modal = styled.div`
   grid-template-areas:
     'item option'
     'footer footer';
-  width: 55rem;
-  padding: 4rem;
-  background-color: #fff;
-  color: #000;
-  border: solid;
+  width: 60rem;
+  padding: 2rem;
 `
+
+const ButtonWrapper = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  padding: 1.25rem;
+`
+
+const CloseButton = styled.button`
+  font-size: 1.5rem;
+`
+
 const ItemImage = styled.img`
   object-fit: scale-down;
   width: 100%;
@@ -43,8 +40,16 @@ const FooterLayout = styled.div`
   grid-area: footer;
   display: flex;
   align-items: center;
-  justify-content: space-around;
+  justify-content: space-between;
 `
+
+const PriceLayout = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  font-size: 1.5rem;
+`
+
 const OptionWrapper = styled.div`
   display: flex;
   align-items: center;
@@ -95,6 +100,9 @@ const RadioButton = styled.input`
 const QuantityWrapper = styled.div`
   margin-top: 1.25rem;
 `
+const handleImgError = (e) => {
+  e.target.src = 'images/1.png'
+}
 
 const MenuDetailModal = ({ menu, onModalVisible, onSelectMenu }) => {
   const [quantity, setQuantity] = useState(1)
@@ -102,15 +110,18 @@ const MenuDetailModal = ({ menu, onModalVisible, onSelectMenu }) => {
   const options = menu.optionId.reduce((acc, curr, idx) => {
     const detailId = menu.optionDetailId[idx]
     const optionTitle = menu.optionTitle[idx]
+    const optionSurcharge = menu.optionSurcharge[idx]
     if (acc[curr]) {
       acc[curr]['detailId'].push(detailId)
       acc[curr]['optionTitle'].push(optionTitle)
+      acc[curr]['optionSurcharge'].push(optionSurcharge)
     } else {
       acc = {
         ...acc,
         [curr]: {
           detailId: [detailId],
           optionTitle: [optionTitle],
+          optionSurcharge: [optionSurcharge],
         },
       }
     }
@@ -118,17 +129,22 @@ const MenuDetailModal = ({ menu, onModalVisible, onSelectMenu }) => {
   }, {})
 
   let initOption = {}
+  let initSurcharge = 0
   Object.keys(options).forEach((optionId) => {
+    initSurcharge += options[optionId].optionSurcharge[0]
     initOption = {
       ...initOption,
       [optionId]: {
         id: options[optionId].detailId[0],
         title: options[optionId].optionTitle[0],
+        surcharge: options[optionId].optionSurcharge[0],
       },
     }
   })
 
   const [option, setOption] = useState(initOption)
+  const [price, setPrice] = useState(menu.price + initSurcharge)
+
   const increase = () => {
     if (quantity < 50) {
       setQuantity((quantity) => quantity + 1)
@@ -145,17 +161,21 @@ const MenuDetailModal = ({ menu, onModalVisible, onSelectMenu }) => {
     onModalVisible(false)
     let optionId = []
     let optionTitle = []
+    let optionSurcharge = []
     Object.values(option).forEach((item) => {
       optionId.push(item.id)
       optionTitle.push(item.title)
+      optionSurcharge.push(item.surcharge)
     })
 
     onSelectMenu({
       title: menu.title,
-      price: menu.price,
+      price,
+      categoryId: menu.categoryId,
       menuId: menu.menuId,
       optionId: optionId.join(','),
       optionTitle: optionTitle.join(','),
+      optionSurcharge: optionSurcharge.join(','),
       quantity,
     })
   }
@@ -164,17 +184,21 @@ const MenuDetailModal = ({ menu, onModalVisible, onSelectMenu }) => {
     const {
       name,
       value,
-      dataset: { title },
+      dataset: { title, surcharge },
     } = e.target
 
+    const prevSurcharge = option[name].surcharge
+    const currentSurcharge = Number(surcharge)
     setOption({
       ...option,
       [name]: {
         id: Number(value),
         title: title,
+        surcharge: currentSurcharge,
       },
     })
-    console.log({ option })
+
+    setPrice((prevPrice) => prevPrice - prevSurcharge + currentSurcharge)
   }
 
   const handleOverlayClick = (e) => {
@@ -182,15 +206,19 @@ const MenuDetailModal = ({ menu, onModalVisible, onSelectMenu }) => {
     onModalVisible(false)
   }
 
-  const handleModalClick = (e) => {
-    e.stopPropagation()
-  }
-
   return (
-    <ModalOverlay onClick={handleOverlayClick}>
-      <Modal onClick={handleModalClick}>
+    <Modal onClick={handleOverlayClick}>
+      <ButtonWrapper>
+        <CloseButton onClick={() => onModalVisible(false)}>X</CloseButton>
+      </ButtonWrapper>
+
+      <DetailLayout>
         <Container title={menu.title}>
-          <ItemImage src="images/1.png" alt="item"></ItemImage>
+          <ItemImage
+            src={`images/${menu.categoryId}.png`}
+            alt="item"
+            onError={handleImgError}
+          ></ItemImage>
           <Badge variant="normal" icon={false}>
             {menu.price.toLocaleString()}
           </Badge>
@@ -210,9 +238,12 @@ const MenuDetailModal = ({ menu, onModalVisible, onSelectMenu }) => {
                           defaultChecked={index === 0}
                           onChange={handleChangeOption}
                           data-title={options[id].optionTitle[index]}
+                          data-surcharge={options[id].optionSurcharge[index]}
                         ></RadioButton>
                         <RadioButtonLabel>
-                          {options[id].optionTitle[index]}
+                          {options[id].optionTitle[index]}{' '}
+                          {options[id].optionSurcharge[index] > 0 &&
+                            `+${options[id].optionSurcharge[index]}`}
                         </RadioButtonLabel>
                       </Item>
                     )
@@ -233,19 +264,23 @@ const MenuDetailModal = ({ menu, onModalVisible, onSelectMenu }) => {
           </Container>
         </OptionLayout>
         <FooterLayout>
-          <Button
+          <PriceLayout>
+            <span>총 금액 (원)</span>
+            <Input value={price.toLocaleString()}></Input>
+          </PriceLayout>
+          {/* <Button
             onClick={() => onModalVisible(false)}
             size="lg"
             variant="normal"
           >
             창 닫기
-          </Button>
+          </Button> */}
           <Button onClick={() => onSubmitBtn()} size="lg" variant="danger">
             상품 담기
           </Button>
         </FooterLayout>
-      </Modal>
-    </ModalOverlay>
+      </DetailLayout>
+    </Modal>
   )
 }
 export default MenuDetailModal
