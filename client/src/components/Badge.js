@@ -34,7 +34,7 @@ const BadgeStyle = styled.span`
     justify-content: center;
     align-items: center;
     width: 1.5rem;
-    font-size: 2rem;
+
     color: var(--badge-text-color);
     text-align: center;
     background-color: var(--badge-bg-color);
@@ -50,7 +50,7 @@ const BadgeStyle = styled.span`
     height: 1.5rem;
     z-index: 2;
   }
-
+  font-size: 1.25rem;
   color: var(--badge-text-color);
   text-align: center;
   background-color: var(--badge-bg-color);
