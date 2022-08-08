@@ -12,6 +12,7 @@ const ContainerStyle = styled.div`
   border-color: #000;
   border-style: solid;
   border-width: 4px;
+  height: 100%;
 `
 
 const ContainerTitle = styled.h3`
