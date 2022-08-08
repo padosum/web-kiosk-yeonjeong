@@ -14,15 +14,6 @@ const ModalOverlay = styled.div`
   background-color: rgba(0, 0, 0, 0.65);
 `
 const ModalContainer = styled.div`
-  display: grid;
-  gap: 0.5rem;
-  grid-template-columns: 150px auto;
-  grid-template-rows: 2fr 1fr;
-  grid-template-areas:
-    'item option'
-    'footer footer';
-  width: 55rem;
-  padding: 4rem;
   background-color: #fff;
   color: #000;
   border: solid;
