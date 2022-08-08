@@ -81,6 +81,9 @@ const RadioButton = styled.input`
 const QuantityWrapper = styled.div`
   margin-top: 1.25rem;
 `
+const handleImgError = (e) => {
+  e.target.src = 'images/1.png'
+}
 
 const MenuDetailModal = ({ menu, onModalVisible, onSelectMenu }) => {
   const [quantity, setQuantity] = useState(1)
@@ -171,7 +174,11 @@ const MenuDetailModal = ({ menu, onModalVisible, onSelectMenu }) => {
     <Modal onClick={handleOverlayClick}>
       <DetailLayout>
         <Container title={menu.title}>
-          <ItemImage src="images/1.png" alt="item"></ItemImage>
+          <ItemImage
+            src={`images/${menu.categoryId}.png`}
+            alt="item"
+            onError={handleImgError}
+          ></ItemImage>
           <Badge variant="normal" icon={false}>
             {menu.price.toLocaleString()}
           </Badge>

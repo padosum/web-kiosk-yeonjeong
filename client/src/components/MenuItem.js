@@ -20,10 +20,18 @@ const MenuItem = (props) => {
     setModalVisible(active)
   }
 
+  const handleImgError = (e) => {
+    e.target.src = 'images/1.png'
+  }
+
   return (
     <>
       <Container title={item.title}>
-        <ItemImage src={'images/1.png'}></ItemImage>
+        <ItemImage
+          src={`images/${item.categoryId}.png`}
+          alt="product"
+          onError={handleImgError}
+        ></ItemImage>
         <Button
           onClick={() => onModalVisible(true)}
           size="sm"
