@@ -1,9 +1,9 @@
 import styled from 'styled-components'
-import Tabs from './components/Main'
+import Main from './components/Main'
 import GlobaStyle from './GlobalStyle'
 
 const MainPageLayout = styled.div`
-  width: 60rem;
+  width: 76.8rem;
   height: 80rem;
   background: #4b4b56;
   border-radius: 10px;
@@ -41,7 +41,7 @@ function App() {
       <GlobaStyle />
       <AppTitle>우아 키오스크</AppTitle>
       <MainPageLayout className="App">
-        <Tabs />
+        <Main />
       </MainPageLayout>
     </>
   )
