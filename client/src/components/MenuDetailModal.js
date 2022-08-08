@@ -4,33 +4,8 @@ import Badge from './Badge'
 import Button from './Button'
 import Input from './Input'
 import Container from './Container'
+import Modal from './Modal'
 
-const ModalOverlay = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: 1;
-  background-color: rgba(0, 0, 0, 0.65);
-`
-const Modal = styled.div`
-  display: grid;
-  gap: 0.5rem;
-  grid-template-columns: 150px auto;
-  grid-template-rows: 2fr 1fr;
-  grid-template-areas:
-    'item option'
-    'footer footer';
-  width: 55rem;
-  padding: 4rem;
-  background-color: #fff;
-  color: #000;
-  border: solid;
-`
 const ItemImage = styled.img`
   object-fit: scale-down;
   width: 100%;
@@ -182,70 +157,64 @@ const MenuDetailModal = ({ menu, onModalVisible, onSelectMenu }) => {
     onModalVisible(false)
   }
 
-  const handleModalClick = (e) => {
-    e.stopPropagation()
-  }
-
   return (
-    <ModalOverlay onClick={handleOverlayClick}>
-      <Modal onClick={handleModalClick}>
-        <Container title={menu.title}>
-          <ItemImage src="images/1.png" alt="item"></ItemImage>
-          <Badge variant="normal" icon={false}>
-            {menu.price.toLocaleString()}
-          </Badge>
-        </Container>
-        <OptionLayout>
-          <Container title="옵션과 수량 선택">
-            {Object.keys(options).map((id) => {
-              return (
-                <OptionWrapper key={id}>
-                  {options[id].detailId.map((detailId, index) => {
-                    return (
-                      <Item key={detailId}>
-                        <RadioButton
-                          type="radio"
-                          name={id}
-                          value={detailId}
-                          defaultChecked={index === 0}
-                          onChange={handleChangeOption}
-                          data-title={options[id].optionTitle[index]}
-                        ></RadioButton>
-                        <RadioButtonLabel>
-                          {options[id].optionTitle[index]}
-                        </RadioButtonLabel>
-                      </Item>
-                    )
-                  })}
-                </OptionWrapper>
-              )
-            })}
+    <Modal onClick={handleOverlayClick}>
+      <Container title={menu.title}>
+        <ItemImage src="images/1.png" alt="item"></ItemImage>
+        <Badge variant="normal" icon={false}>
+          {menu.price.toLocaleString()}
+        </Badge>
+      </Container>
+      <OptionLayout>
+        <Container title="옵션과 수량 선택">
+          {Object.keys(options).map((id) => {
+            return (
+              <OptionWrapper key={id}>
+                {options[id].detailId.map((detailId, index) => {
+                  return (
+                    <Item key={detailId}>
+                      <RadioButton
+                        type="radio"
+                        name={id}
+                        value={detailId}
+                        defaultChecked={index === 0}
+                        onChange={handleChangeOption}
+                        data-title={options[id].optionTitle[index]}
+                      ></RadioButton>
+                      <RadioButtonLabel>
+                        {options[id].optionTitle[index]}
+                      </RadioButtonLabel>
+                    </Item>
+                  )
+                })}
+              </OptionWrapper>
+            )
+          })}
 
-            <QuantityWrapper>
-              <Button size="sm" variant="normal" onClick={decrease}>
-                ➖
-              </Button>
-              <Input value={quantity} />
-              <Button size="sm" variant="normal" onClick={increase}>
-                ➕
-              </Button>
-            </QuantityWrapper>
-          </Container>
-        </OptionLayout>
-        <FooterLayout>
-          <Button
-            onClick={() => onModalVisible(false)}
-            size="lg"
-            variant="normal"
-          >
-            창 닫기
-          </Button>
-          <Button onClick={() => onSubmitBtn()} size="lg" variant="danger">
-            상품 담기
-          </Button>
-        </FooterLayout>
-      </Modal>
-    </ModalOverlay>
+          <QuantityWrapper>
+            <Button size="sm" variant="normal" onClick={decrease}>
+              ➖
+            </Button>
+            <Input value={quantity} />
+            <Button size="sm" variant="normal" onClick={increase}>
+              ➕
+            </Button>
+          </QuantityWrapper>
+        </Container>
+      </OptionLayout>
+      <FooterLayout>
+        <Button
+          onClick={() => onModalVisible(false)}
+          size="lg"
+          variant="normal"
+        >
+          창 닫기
+        </Button>
+        <Button onClick={() => onSubmitBtn()} size="lg" variant="danger">
+          상품 담기
+        </Button>
+      </FooterLayout>
+    </Modal>
   )
 }
 export default MenuDetailModal
