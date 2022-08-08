@@ -27,7 +27,6 @@ const CartLayout = styled.section`
   overflow: scroll;
   padding: 1rem;
 `
-
 const ButtonWrapper = styled.div`
   display: flex;
   justify-content: flex-end;
@@ -72,26 +71,22 @@ const SelectItemWrapper = styled.div`
   opacity: 0;
   animation: drop 0.4s linear forwards 0.4s;
 `
-
 const ItemImage = styled.img`
   object-fit: scale-down;
   width: 100%;
   height: 100%;
 `
-
 const OptionWrapper = styled.span`
   text-align: center;
   margin: 0.25rem;
   font-size: 1.25rem;
 `
-
 const PaymentLayout = styled.section`
   display: flex;
   flex-direction: column;
   grid-area: payment;
   justify-content: space-between;
 `
-
 const TimerWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -143,13 +138,17 @@ function Main() {
   let fps = useRef(50)
   let down = useRef(null)
   let up = useRef(null)
-  let intervalId = useRef(null)
 
   const [menu, setMenu] = useState(null)
   const [loading, setLoading] = useState(true)
   const [tabIndex, setTabIndex] = useState(0)
   const [selectMenu, setSelectMenu] = useState([])
   const [errorMessage, setErrorMessge] = useState('')
+  const [step, setStep] = useState(0) // 결제 후 변경 필요
+
+  const handleNextStep = () => {
+    setStep((prevStep) => prevStep + 1)
+  }
 
   const handleClearMenu = () => {
     setSelectMenu([])
@@ -295,12 +294,15 @@ function Main() {
               <>
                 <TimerWrapper>
                   <TimerLabel>남은 시간:</TimerLabel>
-                  <Counter onHandleCount={handleClearMenu}></Counter>
+                  <Counter
+                    onHandleCount={handleClearMenu}
+                    stop={step}
+                  ></Counter>
                 </TimerWrapper>
                 <Button size="lg" variant="normal" onClick={handleClearMenu}>
                   전체 취소
                 </Button>
-                <Button size="lg" variant="success">
+                <Button size="lg" variant="success" onClick={handleNextStep}>
                   결제하기
                 </Button>
               </>
