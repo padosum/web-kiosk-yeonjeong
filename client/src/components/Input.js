@@ -1,6 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
 
+const InputLabel = styled.label`
+  font-size: 1.5rem;
+  color: ${(props) => props.color || 'black'};
+`
 const InputWrapper = styled.div`
   position: relative;
   display: inline-block;
@@ -34,14 +38,27 @@ const InputStyle = styled.input`
   display: block;
   padding: 8px 12px;
   border: none;
-  background-color: transparent;
+  background-color: #f8f8f8;
   text-align: center;
+  font-size: 1.5rem;
 `
-const Input = ({ value, children }) => {
+const Input = ({ title = '', value, color }) => {
   return (
-    <InputWrapper>
-      <InputStyle deafultValue="1" value={value} readOnly={true}></InputStyle>
-    </InputWrapper>
+    <>
+      {title !== '' && (
+        <InputLabel htmlFor={title} color={color}>
+          {title}
+        </InputLabel>
+      )}
+      <InputWrapper>
+        <InputStyle
+          id={title}
+          deafultValue="1"
+          value={value}
+          readOnly={true}
+        ></InputStyle>
+      </InputWrapper>
+    </>
   )
 }
 
