@@ -376,6 +376,7 @@ function Main() {
               paymentTitle={paymentTitle}
               paymentAmount={paymentAmount}
               totalAmount={totalAmount}
+              setStep={setStep}
             ></Receipt>
           )}
         </>
