@@ -39,7 +39,6 @@ const BadgeStyle = styled.span`
       position: absolute;
       width: 2.5rem;
       height: 2.5rem;
-      z-index: 2;
       display: flex;
       align-items: center;
       justify-content: center;
