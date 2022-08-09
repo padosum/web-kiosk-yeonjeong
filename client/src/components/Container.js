@@ -9,9 +9,7 @@ const ContainerStyle = styled.div`
   background-color: white;
   position: relative;
   padding: 1.5rem 2rem;
-  border-color: #000;
-  border-style: solid;
-  border-width: 4px;
+  border: 4px solid #000;
   height: 100%;
 `
 
@@ -19,7 +17,7 @@ const ContainerTitle = styled.h3`
   display: table;
   padding: 0 0.5rem;
   margin: -2.5rem 0 1rem;
-  font-size: 1.2rem;
+  font-size: 1.2em;
   background-color: #fff;
   word-break: keep-all;
 `

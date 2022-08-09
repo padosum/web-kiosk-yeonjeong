@@ -3,15 +3,15 @@ import styled, { css } from 'styled-components'
 
 const SIZES = {
   sm: css`
-    --button-font-size: 1.125rem;
+    --button-font-size: 1.5rem;
     --button-padding: 8px 12px;
   `,
   md: css`
-    --button-font-size: 1.25rem;
+    --button-font-size: 1.625rem;
     --button-padding: 12px 16px;
   `,
   lg: css`
-    --button-font-size: 1.5rem;
+    --button-font-size: 1.75rem;
     --button-padding: 16px 20px;
   `,
 }
