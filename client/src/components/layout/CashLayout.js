@@ -26,7 +26,11 @@ const CashLayout = ({
         value={totalAmount.toLocaleString()}
         color="white"
       ></Input>
-      <Input title="투입금액" value={paymentAmount} color="white"></Input>
+      <Input
+        title="투입금액"
+        value={paymentAmount.toLocaleString()}
+        color="white"
+      ></Input>
       {amountList.map((amount) => {
         return (
           <Button
