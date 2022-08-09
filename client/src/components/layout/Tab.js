@@ -27,9 +27,9 @@ const ItemText = styled.a`
   }
 `
 
-function Tab({ id, value, clickTab, active }) {
+function Tab({ id, value, onClickTab, active }) {
   return (
-    <Item onClick={() => clickTab(id)}>
+    <Item onClick={() => onClickTab(id)}>
       <ItemText active={active}>{value}</ItemText>
     </Item>
   )

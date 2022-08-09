@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import Main from './components/Main'
+import Main from './components/pages/Main'
 import GlobaStyle from './GlobalStyle'
 
 const MainPageLayout = styled.div`

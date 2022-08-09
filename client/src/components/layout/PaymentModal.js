@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
-import Modal from './Modal'
-import Container from './Container'
-import Button from './Button'
+import Modal from '../common/Modal'
+import Container from '../common/Container'
+import Button from '../common/Button'
 import styled from 'styled-components'
-import ConfirmModal from './ConfirmModal'
+import ConfirmModal from '../common/ConfirmModal'
+import CloseButton from '../common/CloseButton'
 
 const PaymentLayout = styled.div`
   width: 55rem;
@@ -24,24 +25,15 @@ const ButtonWrapper = styled.div`
   padding: 1.25rem;
 `
 
-const CloseButton = styled.button`
-  font-size: 1.5rem;
-`
-
-const Payment = ({
-  onHandleLoading,
-  onHandleSubmit,
-  onHandleClearMenu,
-  setStep,
-}) => {
+const Payment = ({ onSubmit, setLoading, setStep, setSelectMenu }) => {
   const [modalVisible, setModalVisible] = useState(false)
 
   const handleCashPayment = () => {
-    onHandleSubmit({ id: 1, title: '현금' })
+    onSubmit({ id: 1, title: '현금' })
   }
 
   const handleCardPayment = () => {
-    onHandleLoading()
+    setLoading((prevLoading) => !prevLoading)
 
     const MIN_SECONDS = 3
     const MAX_SECONDS = 7
@@ -49,8 +41,8 @@ const Payment = ({
       Math.random() * (MAX_SECONDS - MIN_SECONDS + 1) + MIN_SECONDS
     )
     setTimeout(() => {
-      onHandleLoading()
-      onHandleSubmit({ id: 2, title: '카드' })
+      setLoading((prevLoading) => !prevLoading)
+      onSubmit({ id: 2, title: '카드' })
     }, rand * 1000)
   }
 
@@ -82,11 +74,11 @@ const Payment = ({
       {modalVisible && (
         <ConfirmModal
           title="결제를 취소하시겠습니까?"
-          onHandleCancel={() => setModalVisible(false)}
-          onHandleAccept={() => {
+          onCancel={() => setModalVisible(false)}
+          onAccept={() => {
             setModalVisible(false)
             setStep('main')
-            onHandleClearMenu()
+            setSelectMenu([])
           }}
         ></ConfirmModal>
       )}

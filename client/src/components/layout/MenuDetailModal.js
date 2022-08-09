@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import Badge from './Badge'
-import Button from './Button'
-import Input from './Input'
-import Container from './Container'
-import Modal from './Modal'
+import Badge from '../common/Badge'
+import Button from '../common/Button'
+import Input from '../common/Input'
+import Container from '../common/Container'
+import Modal from '../common/Modal'
+import ItemImageContainer from '../common/ItemImageContainer'
+import CloseButton from '../common/CloseButton'
 
 const DetailLayout = styled.div`
   display: grid;
@@ -25,15 +27,6 @@ const ButtonWrapper = styled.div`
   padding: 1.25rem;
 `
 
-const CloseButton = styled.button`
-  font-size: 1.5rem;
-`
-
-const ItemImage = styled.img`
-  object-fit: scale-down;
-  width: 100%;
-  height: 100%;
-`
 const OptionLayout = styled.div`
   grid-area: option;
 `
@@ -211,7 +204,6 @@ const MenuDetailModal = ({ menu, onModalVisible, onSelectMenu }) => {
   }
 
   const handleOverlayClick = (e) => {
-    console.log(`ovrlay`)
     e.preventDefault()
 
     onModalVisible(false)
@@ -225,11 +217,11 @@ const MenuDetailModal = ({ menu, onModalVisible, onSelectMenu }) => {
 
       <DetailLayout>
         <Container title={menu.title}>
-          <ItemImage
+          <ItemImageContainer
             src={`images/${menu.categoryId}.png`}
-            alt="item"
+            alt="product"
             onError={handleImgError}
-          ></ItemImage>
+          ></ItemImageContainer>
           <Badge variant="normal" icon={false}>
             {menu.price.toLocaleString()}
           </Badge>

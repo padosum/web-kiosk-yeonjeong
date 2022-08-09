@@ -24,17 +24,17 @@ const ButtonWrapper = styled.div`
     margin-right: 1.5rem;
   }
 `
-const ConfirmModal = ({ title, onHandleCancel, onHandleAccept }) => {
+const ConfirmModal = ({ title, onCancel, onAccept }) => {
   return (
     <Modal>
       <ConfirmModalLayout>
         <Container title="알림">
           <ConfirmMessageWrapper>{title}</ConfirmMessageWrapper>
           <ButtonWrapper>
-            <Button size="sm" variant="normal" onClick={onHandleCancel}>
+            <Button size="sm" variant="normal" onClick={onCancel}>
               아니오
             </Button>
-            <Button size="sm" variant="danger" onClick={onHandleAccept}>
+            <Button size="sm" variant="danger" onClick={onAccept}>
               네
             </Button>
           </ButtonWrapper>

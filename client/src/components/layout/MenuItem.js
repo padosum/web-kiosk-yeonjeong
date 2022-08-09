@@ -1,16 +1,10 @@
 import React, { useState } from 'react'
-import styled from 'styled-components'
-import { useKeyEscClose } from '../hooks/useKeyEscClose'
-import Badge from './Badge'
-import Button from './Button'
-import Container from './Container'
+import { useKeyEscClose } from '../../hooks/useKeyEscClose'
+import Badge from '../common/Badge'
+import Button from '../common/Button'
+import Container from '../common/Container'
+import ItemImageContainer from '../common/ItemImageContainer'
 import MenuDetailModal from './MenuDetailModal'
-
-const ItemImage = styled.img`
-  object-fit: scale-down;
-  width: 100%;
-  height: 100%;
-`
 
 const MenuItem = ({ item, onSelectMenu, popular }) => {
   const [modalVisible, setModalVisible] = useState(false)
@@ -33,11 +27,11 @@ const MenuItem = ({ item, onSelectMenu, popular }) => {
             인기
           </Badge>
         )}
-        <ItemImage
+        <ItemImageContainer
           src={`images/${item.categoryId}.png`}
           alt="product"
           onError={handleImgError}
-        ></ItemImage>
+        ></ItemImageContainer>
         <Button
           onClick={() => onModalVisible(true)}
           size="sm"
