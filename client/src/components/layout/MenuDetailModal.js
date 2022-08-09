@@ -6,6 +6,7 @@ import Input from '../common/Input'
 import Container from '../common/Container'
 import Modal from '../common/Modal'
 import ItemImageContainer from '../common/ItemImageContainer'
+import CloseButton from '../common/CloseButton'
 
 const DetailLayout = styled.div`
   display: grid;
@@ -24,10 +25,6 @@ const ButtonWrapper = styled.div`
   display: flex;
   justify-content: flex-end;
   padding: 1.25rem;
-`
-
-const CloseButton = styled.button`
-  font-size: 1.5rem;
 `
 
 const OptionLayout = styled.div`

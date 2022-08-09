@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import Modal from '../common/Modal'
 import Container from '../common/Container'
 import { useKeyEscClose } from '../../hooks/useKeyEscClose'
+import CloseButton from '../common/CloseButton'
 
 const ReceiptWrapper = styled.div`
   display: flex;
@@ -41,10 +42,6 @@ const ButtonWrapper = styled.div`
   display: flex;
   justify-content: flex-end;
   padding: 1rem 1.25rem 0 1.25rem;
-`
-
-const CloseButton = styled.button`
-  font-size: 1.5rem;
 `
 
 const Receipt = ({

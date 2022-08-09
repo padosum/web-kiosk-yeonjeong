@@ -4,6 +4,7 @@ import Container from '../common/Container'
 import Button from '../common/Button'
 import styled from 'styled-components'
 import ConfirmModal from '../common/ConfirmModal'
+import CloseButton from '../common/CloseButton'
 
 const PaymentLayout = styled.div`
   width: 55rem;
@@ -22,10 +23,6 @@ const ButtonWrapper = styled.div`
   display: flex;
   justify-content: flex-end;
   padding: 1.25rem;
-`
-
-const CloseButton = styled.button`
-  font-size: 1.5rem;
 `
 
 const Payment = ({
