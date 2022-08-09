@@ -158,6 +158,7 @@ function Main() {
 
   const paymentId = payment.id
   const paymentTitle = payment.title
+  const orderNum = payment.orderNum
   const paymentAmount = selectMenu.reduce((acc, curr) => acc + curr.price, 0)
   const totalAmount = selectMenu.reduce((acc, curr) => acc + curr.price, 0)
 
@@ -199,6 +200,29 @@ function Main() {
     setSelectMenu(newArrayOfMenu)
   }
 
+  const handleSubmitOrder = async ({ id, title }) => {
+    if (id === 1) {
+      setStep('cash')
+    } else {
+      const orderNum = await API.post('/api/orders', {
+        paymentId: id,
+        paymentAmount,
+        totalAmount,
+        menu: [...selectMenu],
+      })
+
+      setPayment({
+        id,
+        title,
+        orderNum,
+      })
+
+      setStep('reciept')
+
+      const data = await fetchMenu()
+      setMenu(data)
+    }
+  }
   const fetchMenu = () => {
     return API.get(`/api/menu`)
   }
@@ -286,24 +310,20 @@ function Main() {
               value={totalAmount.toLocaleString()}
               color="white"
             ></Input>
-            <Input
-              title="투입금액"
-              value={paymentAmount.toLocaleString()}
-              color="white"
-            ></Input>
-            <Button size="lg" variant="normal" disabled={paymentId !== 1}>
+            <Input title="투입금액" value={0} color="white"></Input>
+            <Button size="lg" variant="normal" disabled={step !== 'cash'}>
               500원
             </Button>
-            <Button size="lg" variant="normal" disabled={paymentId !== 1}>
+            <Button size="lg" variant="normal" disabled={step !== 'cash'}>
               100원
             </Button>
-            <Button size="lg" variant="normal" disabled={paymentId !== 1}>
+            <Button size="lg" variant="normal" disabled={step !== 'cash'}>
               1,000원
             </Button>
-            <Button size="lg" variant="normal" disabled={paymentId !== 1}>
+            <Button size="lg" variant="normal" disabled={step !== 'cash'}>
               10,000원
             </Button>
-            <Button size="lg" variant="warning" disabled={paymentId !== 1}>
+            <Button size="lg" variant="warning" disabled={step !== 'cash'}>
               현금 결제하기
             </Button>
           </CashLayout>
@@ -364,13 +384,13 @@ function Main() {
           {step === 'payment' && (
             <Payment
               onHandleLoading={handleLoading}
+              onHandleSubmit={handleSubmitOrder}
               setStep={setStep}
-              setPayment={setPayment}
             ></Payment>
           )}
           {step === 'reciept' && (
             <Receipt
-              orderNum={1}
+              orderNum={orderNum}
               orderMenu={selectMenu}
               paymentId={paymentId}
               paymentTitle={paymentTitle}
