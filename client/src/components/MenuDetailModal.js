@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import Badge from './Badge'
 import Button from './Button'
@@ -16,6 +16,7 @@ const DetailLayout = styled.div`
     'footer footer';
   width: 60rem;
   padding: 2rem;
+  font-size: 1.25rem;
 `
 
 const ButtonWrapper = styled.div`
@@ -51,8 +52,11 @@ const PriceLayout = styled.div`
 `
 
 const OptionWrapper = styled.div`
+  width: 100%;
   display: flex;
   align-items: center;
+  font-size: 1.25rem;
+  justify-content: space-around;
 `
 const Item = styled.label`
   display: flex;
@@ -61,7 +65,6 @@ const Item = styled.label`
   position: relative;
   overflow: hidden;
   margin-bottom: 0.375em;
-  font-size: 1.25rem;
 `
 const RadioButtonLabel = styled.span`
   display: flex;
@@ -69,6 +72,7 @@ const RadioButtonLabel = styled.span`
   padding: 0.375em 0.75em 0.375em 2.375em;
   border-radius: 99em;
   transition: 0.25s ease;
+  font-size: 1.375rem;
   ::before {
     position: absolute;
     display: flex;
@@ -144,10 +148,15 @@ const MenuDetailModal = ({ menu, onModalVisible, onSelectMenu }) => {
 
   const [option, setOption] = useState(initOption)
   const [price, setPrice] = useState(menu.price + initSurcharge)
+  const [totalPrice, setTotalPrice] = useState(price)
+
+  useEffect(() => {
+    setTotalPrice(price * quantity)
+  }, [price, quantity])
 
   const increase = () => {
     if (quantity < 50) {
-      setQuantity((quantity) => quantity + 1)
+      setQuantity((prevQuantity) => prevQuantity + 1)
     }
   }
 
@@ -170,10 +179,10 @@ const MenuDetailModal = ({ menu, onModalVisible, onSelectMenu }) => {
 
     onSelectMenu({
       title: menu.title,
-      price,
+      price: totalPrice,
       categoryId: menu.categoryId,
       menuId: menu.menuId,
-      optionId: optionId.join(','),
+      optionDetailId: optionId.join(','),
       optionTitle: optionTitle.join(','),
       optionSurcharge: optionSurcharge.join(','),
       quantity,
@@ -202,12 +211,14 @@ const MenuDetailModal = ({ menu, onModalVisible, onSelectMenu }) => {
   }
 
   const handleOverlayClick = (e) => {
+    console.log(`ovrlay`)
     e.preventDefault()
+
     onModalVisible(false)
   }
 
   return (
-    <Modal onClick={handleOverlayClick}>
+    <Modal onModalOverlayClick={handleOverlayClick}>
       <ButtonWrapper>
         <CloseButton onClick={() => onModalVisible(false)}>X</CloseButton>
       </ButtonWrapper>
@@ -266,15 +277,8 @@ const MenuDetailModal = ({ menu, onModalVisible, onSelectMenu }) => {
         <FooterLayout>
           <PriceLayout>
             <span>총 금액 (원)</span>
-            <Input value={price.toLocaleString()}></Input>
+            <Input value={totalPrice.toLocaleString()}></Input>
           </PriceLayout>
-          {/* <Button
-            onClick={() => onModalVisible(false)}
-            size="lg"
-            variant="normal"
-          >
-            창 닫기
-          </Button> */}
           <Button onClick={() => onSubmitBtn()} size="lg" variant="danger">
             상품 담기
           </Button>

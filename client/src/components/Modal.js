@@ -36,8 +36,8 @@ const ModalContainer = styled.div`
 const handleModalClick = (e) => {
   e.stopPropagation()
 }
+
 const Modal = ({ children, onModalOverlayClick, animation }) => {
-  console.log(animation)
   return (
     <ModalOverlay onClick={onModalOverlayClick}>
       <ModalContainer onClick={handleModalClick} animation={animation}>

@@ -2,7 +2,7 @@ import React from 'react'
 import Modal from './Modal'
 import Container from './Container'
 import Button from './Button'
-import styled from 'styled-components'
+import styled, { StyleSheetManager } from 'styled-components'
 
 const PaymentLayout = styled.div`
   width: 55rem;
@@ -25,21 +25,22 @@ const CloseButton = styled.button`
   font-size: 1.5rem;
 `
 
-const Payment = ({ onHandleLoading, setStep, setPayment }) => {
+const Payment = ({ onHandleLoading, onHandleSubmit, setStep }) => {
   const handleCashPayment = () => {
-    setStep('paying')
-    setPayment({ id: 1, title: '현금' })
+    onHandleSubmit({ id: 1, title: '현금' })
   }
+
   const handleCardPayment = () => {
     onHandleLoading()
 
-    const min = 3
-    const max = 7
-    const rand = Math.floor(Math.random() * (max - min + 1) + min)
+    const MIN_SECONDS = 3
+    const MAX_SECONDS = 7
+    const rand = Math.floor(
+      Math.random() * (MAX_SECONDS - MIN_SECONDS + 1) + MIN_SECONDS
+    )
     setTimeout(() => {
       onHandleLoading()
-      setStep('reciept')
-      setPayment({ id: 2, title: '카드' })
+      onHandleSubmit({ id: 2, title: '카드' })
     }, rand * 1000)
   }
 

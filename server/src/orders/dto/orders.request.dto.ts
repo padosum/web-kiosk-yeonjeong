@@ -24,11 +24,13 @@ export class OrdersRequestDto {
   public totalAmount: number;
 
   @ApiProperty({
-    type: OrderHasMenuRequestDto,
-    example: {
-      menuId: 2,
-      optionDetailId: '1,4',
-    },
+    type: [OrderHasMenuRequestDto],
+    example: [
+      {
+        menuId: 2,
+        optionDetailId: '1,4',
+      },
+    ],
     description: 'menu',
     required: true,
   })
