@@ -1,3 +1,5 @@
+import { getTodayDateString } from 'src/util/date';
+
 const getOrderNum = () => `
     SELECT (SELECT COUNT(*) + 1 
               FROM ORDERS 
