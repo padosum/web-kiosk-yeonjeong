@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import { useKeyEscClose } from '../hooks/useKeyEscClose'
+import Badge from './Badge'
 import Button from './Button'
 import Container from './Container'
 import MenuDetailModal from './MenuDetailModal'
@@ -10,11 +11,7 @@ const ItemImage = styled.img`
   width: 100%;
   height: 100%;
 `
-const PopularItem = styled.span`
-  background-color: #e76e55;
-  padding: 0.25rem;
-  color: #fff;
-`
+
 const MenuItem = ({ item, onSelectMenu, popular }) => {
   const [modalVisible, setModalVisible] = useState(false)
 
@@ -31,7 +28,11 @@ const MenuItem = ({ item, onSelectMenu, popular }) => {
   return (
     <>
       <Container title={item.title}>
-        {popular && <PopularItem>🌟 인기</PopularItem>}
+        {popular && (
+          <Badge variant="danger" icon={true} position="right">
+            인기
+          </Badge>
+        )}
         <ItemImage
           src={`images/${item.categoryId}.png`}
           alt="product"

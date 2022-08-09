@@ -432,6 +432,7 @@ function Main() {
             <Payment
               onHandleLoading={handleLoading}
               onHandleSubmit={handleSubmitOrder}
+              onHandleClearMenu={handleClearMenu}
               setStep={setStep}
             ></Payment>
           )}

@@ -1,18 +1,21 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Modal from './Modal'
 import Container from './Container'
 import Button from './Button'
-import styled, { StyleSheetManager } from 'styled-components'
+import styled from 'styled-components'
+import ConfirmModal from './ConfirmModal'
 
 const PaymentLayout = styled.div`
   width: 55rem;
-  padding: 4rem;
+  padding: 0 4rem 4rem 4rem;
+  font-size: 2rem;
 `
 
 const ButtonGroupWrapper = styled.div`
+  width: 100%;
   display: flex;
   justify-content: space-around;
-  width: 100%;
+  padding: 1rem;
 `
 
 const ButtonWrapper = styled.div`
@@ -25,7 +28,14 @@ const CloseButton = styled.button`
   font-size: 1.5rem;
 `
 
-const Payment = ({ onHandleLoading, onHandleSubmit, setStep }) => {
+const Payment = ({
+  onHandleLoading,
+  onHandleSubmit,
+  onHandleClearMenu,
+  setStep,
+}) => {
+  const [modalVisible, setModalVisible] = useState(false)
+
   const handleCashPayment = () => {
     onHandleSubmit({ id: 1, title: '현금' })
   }
@@ -45,23 +55,42 @@ const Payment = ({ onHandleLoading, onHandleSubmit, setStep }) => {
   }
 
   return (
-    <Modal>
-      <ButtonWrapper>
-        <CloseButton onClick={() => setStep('main')}>X</CloseButton>
-      </ButtonWrapper>
-      <PaymentLayout>
-        <Container title="결제수단 선택">
-          <ButtonGroupWrapper>
-            <Button size="lg" variant="success" onClick={handleCashPayment}>
-              현금
-            </Button>
-            <Button size="lg" variant="success" onClick={handleCardPayment}>
-              카드
-            </Button>
-          </ButtonGroupWrapper>
-        </Container>
-      </PaymentLayout>
-    </Modal>
+    <>
+      <Modal>
+        <ButtonWrapper>
+          <CloseButton
+            onClick={() => {
+              setModalVisible(true)
+            }}
+          >
+            X
+          </CloseButton>
+        </ButtonWrapper>
+        <PaymentLayout>
+          <Container title="결제수단 선택">
+            <ButtonGroupWrapper>
+              <Button size="lg" variant="success" onClick={handleCashPayment}>
+                현금
+              </Button>
+              <Button size="lg" variant="success" onClick={handleCardPayment}>
+                카드
+              </Button>
+            </ButtonGroupWrapper>
+          </Container>
+        </PaymentLayout>
+      </Modal>
+      {modalVisible && (
+        <ConfirmModal
+          title="결제를 취소하시겠습니까?"
+          onHandleCancel={() => setModalVisible(false)}
+          onHandleAccept={() => {
+            setModalVisible(false)
+            setStep('main')
+            onHandleClearMenu()
+          }}
+        ></ConfirmModal>
+      )}
+    </>
   )
 }
 

@@ -26,30 +26,38 @@ const VARIANTS = {
 
 const BadgeStyle = styled.span`
   ${(p) => p.variantStyle}
-  ${(props) => props.icon} {
-    width: 100%;
-  }
-  ${(props) => !props.icon} {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 1.5rem;
 
-    color: var(--badge-text-color);
-    text-align: center;
-    background-color: var(--badge-bg-color);
-    position: absolute;
-    ${(props) => props.position === 'left'} {
-      top: -2.5rem;
-      right: -1rem;
-    }
-    ${(props) => props.position === 'right'} {
-      top: -0.5rem;
+  ${(props) =>
+    !props.icon &&
+    css`
+      width: 100%;
+    `}
+
+    ${(props) =>
+    props.icon &&
+    css`
+      position: absolute;
+      width: 2.5rem;
+      height: 2.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    `}
+
+    ${(props) =>
+    props.position === 'left' &&
+    css`
+      top: 1rem;
       left: -1rem;
-    }
-    height: 1.5rem;
-    z-index: 2;
-  }
+    `}
+
+    ${(props) =>
+    props.position === 'right' &&
+    css`
+      top: 1rem;
+      right: 1rem;
+    `}
+
   font-size: 1.25rem;
   color: var(--badge-text-color);
   text-align: center;
