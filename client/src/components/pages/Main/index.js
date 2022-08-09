@@ -3,13 +3,12 @@ import styled from 'styled-components'
 
 import API from '../../../util/api'
 import Tabs from '../../layout/Tabs'
-import Button from '../../common/Button'
-import Counter from '../../common/Counter'
 import PaymentModal from '../../layout/PaymentModal'
 import LoadingIndicator from '../../common/LoadingIndicator'
 import Receipt from '../../layout/Receipt'
 import CartLayout from '../../layout/CartLayout'
 import CashLayout from '../../layout/CashLayout'
+import OrderLayout from '../../layout/OrderLayout'
 
 const ItemsLayout = styled.section`
   display: flex;
@@ -18,35 +17,34 @@ const ItemsLayout = styled.section`
   justify-content: center;
 `
 
-const PaymentLayout = styled.section`
-  display: flex;
-  flex-direction: column;
-  grid-area: payment;
-  justify-content: space-around;
-`
-const TimerWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-`
-const TimerLabel = styled.label`
-  color: #fff;
-  font-size: 1.25rem;
-  margin-bottom: 1rem;
-`
-
 function Main() {
   const [menu, setMenu] = useState(null)
   const [loading, setLoading] = useState(true)
-
   const [selectMenu, setSelectMenu] = useState([])
   const [errorMessage, setErrorMessge] = useState('')
   const [step, setStep] = useState('main')
   const [payment, setPayment] = useState({})
   const [paymentAmount, setPaymentAmount] = useState(0)
+
   const paymentId = payment.id
   const paymentTitle = payment.title
   const orderNum = payment.orderNum
   const totalAmount = selectMenu.reduce((acc, curr) => acc + curr.price, 0)
+
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const data = await fetchMenu()
+        setMenu(data)
+      } catch (err) {
+        setMenu(null)
+        setErrorMessge(err.message)
+      } finally {
+        setLoading(false)
+      }
+    }
+    getData()
+  }, [])
 
   const handleLoading = () => {
     setLoading((prevLoading) => !prevLoading)
@@ -105,6 +103,7 @@ function Main() {
     const data = await fetchMenu()
     setMenu(data)
   }
+
   const handleSubmitOrder = async ({ id, title }) => {
     if (id === 1) {
       setStep('cash')
@@ -112,24 +111,10 @@ function Main() {
       orderMenu({ id, title })
     }
   }
+
   const fetchMenu = () => {
     return API.get(`/api/menu`)
   }
-
-  useEffect(() => {
-    const getData = async () => {
-      try {
-        const data = await fetchMenu()
-        setMenu(data)
-      } catch (err) {
-        setMenu(null)
-        setErrorMessge(err.message)
-      } finally {
-        setLoading(false)
-      }
-    }
-    getData()
-  }, [])
 
   return (
     <>
@@ -155,29 +140,12 @@ function Main() {
             step={step}
             handleRemoveMenu={handleRemoveMenu}
           ></CartLayout>
-          <PaymentLayout>
-            {selectMenu.length > 0 && step === 'main' && (
-              <>
-                <TimerWrapper>
-                  <TimerLabel>남은 시간</TimerLabel>
-                  <Counter
-                    onHandleCount={handleClearMenu}
-                    stop={step !== 'main'}
-                  ></Counter>
-                </TimerWrapper>
-                <Button size="lg" variant="normal" onClick={handleClearMenu}>
-                  전체 취소
-                </Button>
-                <Button
-                  size="lg"
-                  variant="success"
-                  onClick={handleClickPayment}
-                >
-                  결제하기
-                </Button>
-              </>
-            )}
-          </PaymentLayout>
+          <OrderLayout
+            selectMenu={selectMenu}
+            step={step}
+            handleClearMenu={handleClearMenu}
+            handleClickPayment={handleClickPayment}
+          ></OrderLayout>
           {step === 'payment' && (
             <PaymentModal
               onHandleLoading={handleLoading}

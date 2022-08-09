@@ -1,0 +1,53 @@
+import React from 'react'
+import styled from 'styled-components'
+
+import Counter from '../common/Counter'
+import Button from '../common/Button'
+
+const OrderLayoutStyle = styled.section`
+  display: flex;
+  flex-direction: column;
+  grid-area: payment;
+  justify-content: space-around;
+`
+
+const TimerWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+`
+const TimerLabel = styled.label`
+  color: #fff;
+  font-size: 1.25rem;
+  margin-bottom: 1rem;
+`
+
+const OrderLayout = ({
+  selectMenu,
+  step,
+  handleClearMenu,
+  handleClickPayment,
+}) => {
+  return (
+    <OrderLayoutStyle>
+      {selectMenu.length > 0 && step === 'main' && (
+        <>
+          <TimerWrapper>
+            <TimerLabel>남은 시간</TimerLabel>
+            <Counter
+              onHandleCount={handleClearMenu}
+              stop={step !== 'main'}
+            ></Counter>
+          </TimerWrapper>
+          <Button size="lg" variant="normal" onClick={handleClearMenu}>
+            전체 취소
+          </Button>
+          <Button size="lg" variant="success" onClick={handleClickPayment}>
+            결제하기
+          </Button>
+        </>
+      )}
+    </OrderLayoutStyle>
+  )
+}
+
+export default OrderLayout
