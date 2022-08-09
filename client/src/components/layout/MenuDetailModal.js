@@ -5,6 +5,7 @@ import Button from '../common/Button'
 import Input from '../common/Input'
 import Container from '../common/Container'
 import Modal from '../common/Modal'
+import ItemImageContainer from '../common/ItemImageContainer'
 
 const DetailLayout = styled.div`
   display: grid;
@@ -29,11 +30,6 @@ const CloseButton = styled.button`
   font-size: 1.5rem;
 `
 
-const ItemImage = styled.img`
-  object-fit: scale-down;
-  width: 100%;
-  height: 100%;
-`
 const OptionLayout = styled.div`
   grid-area: option;
 `
@@ -225,11 +221,11 @@ const MenuDetailModal = ({ menu, onModalVisible, onSelectMenu }) => {
 
       <DetailLayout>
         <Container title={menu.title}>
-          <ItemImage
+          <ItemImageContainer
             src={`images/${menu.categoryId}.png`}
-            alt="item"
+            alt="product"
             onError={handleImgError}
-          ></ItemImage>
+          ></ItemImageContainer>
           <Badge variant="normal" icon={false}>
             {menu.price.toLocaleString()}
           </Badge>

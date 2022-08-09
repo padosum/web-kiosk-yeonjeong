@@ -11,6 +11,7 @@ import Payment from '../../layout/Payment'
 import LoadingIndicator from '../../common/LoadingIndicator'
 import Receipt from '../../layout/Receipt'
 import Input from '../../common/Input'
+import ItemImageContainer from '../../common/ItemImageContainer'
 
 const ItemsLayout = styled.section`
   display: flex;
@@ -85,11 +86,7 @@ const SelectItemWrapper = styled.div`
   opacity: 0;
   animation: drop 0.4s linear forwards 0.4s;
 `
-const ItemImage = styled.img`
-  object-fit: scale-down;
-  width: 100%;
-  height: 100%;
-`
+
 const OptionWrapper = styled.span`
   text-align: center;
   margin: 0.25rem;
@@ -389,10 +386,10 @@ function Main() {
                       )}
                     </ButtonWrapper>
                     <Container title={item.title}>
-                      <ItemImage
+                      <ItemImageContainer
                         src={`images/${item.categoryId}.png`}
-                        alt="product item"
-                      ></ItemImage>
+                        alt="product"
+                      ></ItemImageContainer>
                       <Badge variant="normal" icon={false}>
                         {item.price.toLocaleString()}
                       </Badge>
