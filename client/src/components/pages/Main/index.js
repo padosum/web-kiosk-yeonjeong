@@ -8,21 +8,14 @@ import Counter from '../../common/Counter'
 import Payment from '../../layout/Payment'
 import LoadingIndicator from '../../common/LoadingIndicator'
 import Receipt from '../../layout/Receipt'
-import Input from '../../common/Input'
 import CartLayout from '../../layout/CartLayout'
+import CashLayout from '../../layout/CashLayout'
 
 const ItemsLayout = styled.section`
   display: flex;
   grid-area: items;
   flex-direction: column;
   justify-content: center;
-`
-const CashLayout = styled.section`
-  display: flex;
-  flex-direction: column;
-  grid-area: cash;
-  justify-content: space-around;
-  padding-top: 1rem;
 `
 
 const PaymentLayout = styled.section`
@@ -150,67 +143,13 @@ function Main() {
           <ItemsLayout>
             <Tabs menu={menu} handleSelectMenu={handleSelectMenu}></Tabs>
           </ItemsLayout>
-          <CashLayout>
-            <Input
-              title="주문금액"
-              value={totalAmount.toLocaleString()}
-              color="white"
-            ></Input>
-            <Input title="투입금액" value={paymentAmount} color="white"></Input>
-            <Button
-              size="lg"
-              variant="normal"
-              data-amount={100}
-              disabled={step !== 'cash'}
-              onClick={() =>
-                setPaymentAmount((prevPaymentAmout) => prevPaymentAmout + 100)
-              }
-            >
-              100원
-            </Button>
-            <Button
-              size="lg"
-              variant="normal"
-              data-amount={500}
-              disabled={step !== 'cash'}
-              onClick={() =>
-                setPaymentAmount((prevPaymentAmout) => prevPaymentAmout + 500)
-              }
-            >
-              500원
-            </Button>
-
-            <Button
-              size="lg"
-              variant="normal"
-              data-amount={1000}
-              disabled={step !== 'cash'}
-              onClick={() =>
-                setPaymentAmount((prevPaymentAmout) => prevPaymentAmout + 1000)
-              }
-            >
-              1,000원
-            </Button>
-            <Button
-              size="lg"
-              variant="normal"
-              data-amount={10000}
-              disabled={step !== 'cash'}
-              onClick={() =>
-                setPaymentAmount((prevPaymentAmout) => prevPaymentAmout + 10000)
-              }
-            >
-              10,000원
-            </Button>
-            <Button
-              size="lg"
-              variant="warning"
-              disabled={step !== 'cash' || totalAmount > paymentAmount}
-              onClick={() => orderMenu({ id: 1, title: '현금' })}
-            >
-              현금 결제하기
-            </Button>
-          </CashLayout>
+          <CashLayout
+            totalAmount={totalAmount}
+            paymentAmount={paymentAmount}
+            step={step}
+            setPaymentAmount={setPaymentAmount}
+            orderMenu={orderMenu}
+          ></CashLayout>
           <CartLayout
             selectMenu={selectMenu}
             step={step}
