@@ -1,8 +1,8 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled, { css } from 'styled-components'
-import Tab from '../../layout/Tab'
+
 import API from '../../../util/api'
-import TabPanel from '../../layout/TabPanel'
+import Tabs from '../../layout/Tabs'
 import Container from '../../common/Container'
 import Badge from '../../common/Badge'
 import Button from '../../common/Button'
@@ -107,52 +107,11 @@ const TimerLabel = styled.label`
   font-size: 1.25rem;
   margin-bottom: 1rem;
 `
-const TabsWrapper = styled.section`
-  position: relative;
-  width: 100%;
-  height: 5rem;
-  display: flex;
-  overflow: auto;
-  background-color: #f8f8f8;
-  border-radius: 10px;
-  border: 4px solid #353535;
-  user-select: none;
-  -moz-user-select: none;
-  -webkit-user-drag: none;
-  -webkit-user-select: none;
-  -ms-user-select: none;
-  box-shadow: inset -4px -4px 0px 0px #adafbc;
-`
-const TabsContainer = styled.ul`
-  display: flex;
-  width: 100%;
-  white-space: nowrap;
-  overflow: auto;
-  -ms-overflow-style: -ms-autohiding-scrollbar;
-  -webkit-overflow-scrolling: touch;
-  user-select: none;
-  -moz-user-select: none;
-  -webkit-user-drag: none;
-  -webkit-user-select: none;
-  -ms-user-select: none;
-  &::-webkit-scrollbar {
-    display: none;
-  }
-`
 
 function Main() {
-  const wrapperRef = React.useRef()
-  const containerRef = React.useRef()
-  let startX = useRef(0)
-  let scrollLeft = useRef(0)
-  let wait = useRef(false)
-  let fps = useRef(50)
-  let down = useRef(null)
-  let up = useRef(null)
-
   const [menu, setMenu] = useState(null)
   const [loading, setLoading] = useState(true)
-  const [tabIndex, setTabIndex] = useState(0)
+
   const [selectMenu, setSelectMenu] = useState([])
   const [errorMessage, setErrorMessge] = useState('')
   const [step, setStep] = useState('main')
@@ -231,22 +190,7 @@ function Main() {
     return API.get(`/api/menu`)
   }
 
-  React.useEffect(() => {
-    document.addEventListener('mousemove', (e) => {
-      if (!startX.current || wait.current) return
-      wait.current = true //throttle
-      setTimeout(() => (wait.current = false), 1000 / fps.current)
-      const offset = e.pageX
-      containerRef.current.scrollLeft =
-        scrollLeft.current + startX.current - offset
-    })
-
-    document.addEventListener('mouseup', (e) => {
-      startX.current = 0
-      up.current = e.clientX
-      containerRef.current.style.cursor = 'grab'
-    })
-
+  useEffect(() => {
     const getData = async () => {
       try {
         const data = await fetchMenu()
@@ -261,23 +205,6 @@ function Main() {
     getData()
   }, [])
 
-  const handleMouseDown = (e) => {
-    startX.current = e.pageX
-    scrollLeft.current = containerRef.current.scrollLeft
-
-    up.current = null
-    down.current = e.clientX
-
-    e.target.style.cursor = 'grabbing'
-  }
-
-  const handleClick = (id) => {
-    if (down.current !== up.current) {
-      return
-    }
-    setTabIndex(id - 1)
-  }
-
   return (
     <>
       {loading && (
@@ -288,25 +215,7 @@ function Main() {
       {menu ? (
         <>
           <ItemsLayout>
-            <TabsWrapper ref={wrapperRef}>
-              <TabsContainer ref={containerRef} onMouseDown={handleMouseDown}>
-                {menu.map(({ id, title }) => {
-                  return (
-                    <Tab
-                      key={id}
-                      id={id}
-                      value={title}
-                      clickTab={handleClick}
-                      active={id === tabIndex + 1}
-                    />
-                  )
-                })}
-              </TabsContainer>
-            </TabsWrapper>
-            <TabPanel
-              menu={menu[tabIndex]?.menu}
-              onSelectMenu={handleSelectMenu}
-            />
+            <Tabs menu={menu} handleSelectMenu={handleSelectMenu}></Tabs>
           </ItemsLayout>
           <CashLayout>
             <Input
