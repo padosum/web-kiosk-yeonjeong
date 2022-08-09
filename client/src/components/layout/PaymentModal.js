@@ -25,12 +25,7 @@ const ButtonWrapper = styled.div`
   padding: 1.25rem;
 `
 
-const Payment = ({
-  onHandleLoading,
-  onHandleSubmit,
-  setStep,
-  setSelectMenu,
-}) => {
+const Payment = ({ onHandleSubmit, setLoading, setStep, setSelectMenu }) => {
   const [modalVisible, setModalVisible] = useState(false)
 
   const handleCashPayment = () => {
@@ -38,7 +33,7 @@ const Payment = ({
   }
 
   const handleCardPayment = () => {
-    onHandleLoading()
+    setLoading((prevLoading) => !prevLoading)
 
     const MIN_SECONDS = 3
     const MAX_SECONDS = 7
@@ -46,7 +41,7 @@ const Payment = ({
       Math.random() * (MAX_SECONDS - MIN_SECONDS + 1) + MIN_SECONDS
     )
     setTimeout(() => {
-      onHandleLoading()
+      setLoading((prevLoading) => !prevLoading)
       onHandleSubmit({ id: 2, title: '카드' })
     }, rand * 1000)
   }

@@ -46,10 +46,6 @@ function Main() {
     getData()
   }, [])
 
-  const handleLoading = () => {
-    setLoading((prevLoading) => !prevLoading)
-  }
-
   const handleRemoveMenu = (menuId, optionId) => {
     const filterMenu = selectMenu.filter((menu) => {
       return !(menu.menuId === menuId && menu.optionId === optionId)
@@ -140,8 +136,8 @@ function Main() {
           ></OrderLayout>
           {step === 'payment' && (
             <PaymentModal
-              onHandleLoading={handleLoading}
               onHandleSubmit={handleSubmitOrder}
+              setLoading={setLoading}
               setStep={setStep}
               setSelectMenu={setSelectMenu}
             ></PaymentModal>
