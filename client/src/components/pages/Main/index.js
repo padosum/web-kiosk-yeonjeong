@@ -50,10 +50,6 @@ function Main() {
     setLoading((prevLoading) => !prevLoading)
   }
 
-  const handleClearMenu = () => {
-    setSelectMenu([])
-  }
-
   const handleRemoveMenu = (menuId, optionId) => {
     const filterMenu = selectMenu.filter((menu) => {
       return !(menu.menuId === menuId && menu.optionId === optionId)
@@ -140,14 +136,14 @@ function Main() {
             selectMenu={selectMenu}
             step={step}
             setStep={setStep}
-            handleClearMenu={handleClearMenu}
+            setSelectMenu={setSelectMenu}
           ></OrderLayout>
           {step === 'payment' && (
             <PaymentModal
               onHandleLoading={handleLoading}
               onHandleSubmit={handleSubmitOrder}
-              onHandleClearMenu={handleClearMenu}
               setStep={setStep}
+              setSelectMenu={setSelectMenu}
             ></PaymentModal>
           )}
           {step === 'reciept' && (

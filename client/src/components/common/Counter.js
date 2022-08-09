@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import Input from './Input'
 
-const Counter = ({ stop, onHandleCount }) => {
+const Counter = ({ stop, onHandleTimeout }) => {
   const [counter, setCounter] = useState(10)
 
   useEffect(() => {
@@ -10,7 +10,7 @@ const Counter = ({ stop, onHandleCount }) => {
         if (counter > 0) {
           setCounter(counter - 1)
         } else {
-          onHandleCount()
+          onHandleTimeout()
         }
       } else {
         clearInterval(interval)

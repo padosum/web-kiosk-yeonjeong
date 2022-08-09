@@ -28,8 +28,8 @@ const ButtonWrapper = styled.div`
 const Payment = ({
   onHandleLoading,
   onHandleSubmit,
-  onHandleClearMenu,
   setStep,
+  setSelectMenu,
 }) => {
   const [modalVisible, setModalVisible] = useState(false)
 
@@ -83,7 +83,7 @@ const Payment = ({
           onHandleAccept={() => {
             setModalVisible(false)
             setStep('main')
-            onHandleClearMenu()
+            setSelectMenu([])
           }}
         ></ConfirmModal>
       )}

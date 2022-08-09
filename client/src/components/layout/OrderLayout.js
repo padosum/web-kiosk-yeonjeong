@@ -21,7 +21,7 @@ const TimerLabel = styled.label`
   margin-bottom: 1rem;
 `
 
-const OrderLayout = ({ selectMenu, step, setStep, handleClearMenu }) => {
+const OrderLayout = ({ selectMenu, step, setStep, setSelectMenu }) => {
   return (
     <OrderLayoutStyle>
       {selectMenu.length > 0 && step === 'main' && (
@@ -29,11 +29,11 @@ const OrderLayout = ({ selectMenu, step, setStep, handleClearMenu }) => {
           <TimerWrapper>
             <TimerLabel>남은 시간</TimerLabel>
             <Counter
-              onHandleCount={handleClearMenu}
+              onHandleTimeout={() => setSelectMenu([])}
               stop={step !== 'main'}
             ></Counter>
           </TimerWrapper>
-          <Button size="lg" variant="normal" onClick={handleClearMenu}>
+          <Button size="lg" variant="normal" onClick={() => setSelectMenu([])}>
             전체 취소
           </Button>
           <Button
