@@ -1,10 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { _dbConn } from '../db';
 import { getAllCategory, getAllMenu } from '../db/query-statements/menu';
+import { ReadMenuDto } from './dto/read-menu.dto';
 
 @Injectable()
 export class MenuService {
-  async getAllMenu() {
+  async getAllMenu(): Promise<ReadMenuDto> {
     const conn = await _dbConn.getConnection();
 
     try {
@@ -35,13 +36,15 @@ export class MenuService {
         };
       });
 
-      const allMenuWithCategory = categories.map(({ id, title }) => {
-        return {
-          id,
-          title,
-          menu: allMenu.filter((menuItem) => id === menuItem['categoryId']),
-        };
-      });
+      const allMenuWithCategory: ReadMenuDto = categories.map(
+        ({ id, title }) => {
+          return {
+            id,
+            title,
+            menu: allMenu.filter((menuItem) => id === menuItem['categoryId']),
+          };
+        },
+      );
 
       return allMenuWithCategory;
     } catch (e) {
