@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import { useKeyEscClose } from '../hooks/useKeyEscClose'
-import Badge from './Badge'
-import Button from './Button'
-import Container from './Container'
+import { useKeyEscClose } from '../../hooks/useKeyEscClose'
+import Badge from '../common/Badge'
+import Button from '../common/Button'
+import Container from '../common/Container'
 import MenuDetailModal from './MenuDetailModal'
 
 const ItemImage = styled.img`

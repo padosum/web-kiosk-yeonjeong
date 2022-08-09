@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
-import Modal from './Modal'
-import Container from './Container'
-import Button from './Button'
+import Modal from '../common/Modal'
+import Container from '../common/Container'
+import Button from '../common/Button'
 import styled from 'styled-components'
-import ConfirmModal from './ConfirmModal'
+import ConfirmModal from '../common/ConfirmModal'
 
 const PaymentLayout = styled.div`
   width: 55rem;

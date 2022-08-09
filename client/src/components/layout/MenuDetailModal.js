@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import Badge from './Badge'
-import Button from './Button'
-import Input from './Input'
-import Container from './Container'
-import Modal from './Modal'
+import Badge from '../common/Badge'
+import Button from '../common/Button'
+import Input from '../common/Input'
+import Container from '../common/Container'
+import Modal from '../common/Modal'
 
 const DetailLayout = styled.div`
   display: grid;

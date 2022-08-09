@@ -1,8 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
-import Modal from './Modal'
-import Container from './Container'
-import { useKeyEscClose } from '../hooks/useKeyEscClose'
+import Modal from '../common/Modal'
+import Container from '../common/Container'
+import { useKeyEscClose } from '../../hooks/useKeyEscClose'
 
 const ReceiptWrapper = styled.div`
   display: flex;
