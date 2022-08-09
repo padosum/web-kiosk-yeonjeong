@@ -21,12 +21,7 @@ const TimerLabel = styled.label`
   margin-bottom: 1rem;
 `
 
-const OrderLayout = ({
-  selectMenu,
-  step,
-  handleClearMenu,
-  handleClickPayment,
-}) => {
+const OrderLayout = ({ selectMenu, step, setStep, handleClearMenu }) => {
   return (
     <OrderLayoutStyle>
       {selectMenu.length > 0 && step === 'main' && (
@@ -41,7 +36,11 @@ const OrderLayout = ({
           <Button size="lg" variant="normal" onClick={handleClearMenu}>
             전체 취소
           </Button>
-          <Button size="lg" variant="success" onClick={handleClickPayment}>
+          <Button
+            size="lg"
+            variant="success"
+            onClick={() => setStep('payment')}
+          >
             결제하기
           </Button>
         </>

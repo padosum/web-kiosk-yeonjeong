@@ -50,10 +50,6 @@ function Main() {
     setLoading((prevLoading) => !prevLoading)
   }
 
-  const handleClickPayment = () => {
-    setStep('payment')
-  }
-
   const handleClearMenu = () => {
     setSelectMenu([])
   }
@@ -143,8 +139,8 @@ function Main() {
           <OrderLayout
             selectMenu={selectMenu}
             step={step}
+            setStep={setStep}
             handleClearMenu={handleClearMenu}
-            handleClickPayment={handleClickPayment}
           ></OrderLayout>
           {step === 'payment' && (
             <PaymentModal
