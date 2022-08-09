@@ -1,5 +1,5 @@
 import React from 'react'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 const ModalOverlay = styled.div`
   display: flex;
@@ -17,15 +17,32 @@ const ModalContainer = styled.div`
   background-color: #fff;
   color: #000;
   border: solid;
+
+  ${({ animation }) =>
+    animation === 'pop' &&
+    css`
+      animation: pop 0.5s 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+      @keyframes pop {
+        from {
+          transform: scale(0);
+        }
+        to {
+          transform: scale(1);
+        }
+      }
+    `}
 `
 
 const handleModalClick = (e) => {
   e.stopPropagation()
 }
-const Modal = ({ children, onModalOverlayClick }) => {
+const Modal = ({ children, onModalOverlayClick, animation }) => {
+  console.log(animation)
   return (
     <ModalOverlay onClick={onModalOverlayClick}>
-      <ModalContainer onClick={handleModalClick}>{children}</ModalContainer>
+      <ModalContainer onClick={handleModalClick} animation={animation}>
+        {children}
+      </ModalContainer>
     </ModalOverlay>
   )
 }
