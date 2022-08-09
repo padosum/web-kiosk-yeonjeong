@@ -46,20 +46,12 @@ const VARIANTS = {
     --button-shadow-color: #8c2022;
     --button-hover-color: #ce372b;
   `,
-  //,
-  // disabled: css`
-  //   --button-text-color: #212529;
-  //   --button-bg-color: #d3d3d3;
-  //   --button-hover-color: #d3d3d3;
-  //   --button-shadow-color: #adafbc;
-  //   --button-cursor: not-allowed;
-  //   --button-opacity: 0.6;
-  // `,
 }
 
 const ButtonStyle = styled.button`
   ${(p) => p.sizeStyle}
   ${(p) => p.variantStyle}
+  min-width: 7rem;
   background: var(--button-bg-color);
   display: inline-block;
   position: relative;
