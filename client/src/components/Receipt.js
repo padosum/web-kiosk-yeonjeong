@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import Modal from './Modal'
 import Container from './Container'
+import { useKeyEscClose } from '../hooks/useKeyEscClose'
 
 const ReceiptWrapper = styled.div`
   display: flex;
@@ -36,6 +37,16 @@ const ItemOption = styled.span`
   font-size: 1.5rem;
 `
 
+const ButtonWrapper = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  padding: 1rem 1.25rem 0 1.25rem;
+`
+
+const CloseButton = styled.button`
+  font-size: 1.5rem;
+`
+
 const Receipt = ({
   orderNum,
   orderMenu,
@@ -43,10 +54,16 @@ const Receipt = ({
   paymentTitle,
   paymentAmount,
   totalAmount,
+  setStep,
 }) => {
   const changes = paymentAmount - totalAmount
+  useKeyEscClose(() => setStep('main'))
+
   return (
-    <Modal>
+    <Modal animation="pop">
+      <ButtonWrapper>
+        <CloseButton onClick={() => setStep('main')}>X</CloseButton>
+      </ButtonWrapper>
       <ReceiptWrapper>
         <Container title={`주문번호 ${orderNum}`}>
           <MenuWrapper>
