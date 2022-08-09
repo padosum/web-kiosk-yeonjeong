@@ -1,14 +1,14 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import Modal from '../common/Modal'
 import Container from '../common/Container'
-import { useKeyEscClose } from '../../hooks/useKeyEscClose'
 import CloseButton from '../common/CloseButton'
+import { useKeyEscClose } from '../../hooks/useKeyEscClose'
 
 const ReceiptWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  width: 40rem;
+  width: 42rem;
   padding: 4rem;
   background-color: #fff;
   padding: 1rem;
@@ -44,6 +44,14 @@ const ButtonWrapper = styled.div`
   padding: 1rem 1.25rem 0 1.25rem;
 `
 
+const MessageWrapper = styled.div`
+  width: 100%;
+  padding-top: 1rem;
+  border-top: 4px dotted #000;
+  word-break: keep-all;
+  text-align: center;
+`
+
 const Receipt = ({
   orderNum,
   orderMenu,
@@ -52,14 +60,33 @@ const Receipt = ({
   paymentAmount,
   totalAmount,
   setStep,
+  setSelectMenu,
 }) => {
-  const changes = paymentAmount - totalAmount
-  useKeyEscClose(() => setStep('main'))
+  const [counter, setCounter] = useState(10)
+  const handleNextStep = () => {
+    setStep('main')
+    setSelectMenu([])
+  }
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (counter > 0) {
+        setCounter(counter - 1)
+      } else {
+        clearInterval(interval)
+        handleNextStep()
+      }
+    }, 1000)
+    return () => clearInterval(interval)
+  }, [counter])
+
+  useKeyEscClose(() => handleNextStep)
+
+  const changes = paymentAmount - totalAmount
   return (
     <Modal animation="pop">
       <ButtonWrapper>
-        <CloseButton onClick={() => setStep('main')}>X</CloseButton>
+        <CloseButton onClick={handleNextStep}>X</CloseButton>
       </ButtonWrapper>
       <ReceiptWrapper>
         <Container title={`주문번호 ${orderNum}`}>
@@ -84,6 +111,9 @@ const Receipt = ({
               <p>잔돈: {changes.toLocaleString()}</p>
             )}
           </PaymentWrapper>
+          <MessageWrapper>
+            이 화면은 {counter}초 후 자동으로 사라집니다.
+          </MessageWrapper>
         </Container>
       </ReceiptWrapper>
     </Modal>
