@@ -14,9 +14,9 @@ const DetailLayout = styled.div`
   grid-template-areas:
     'item option'
     'footer footer';
-  width: 60rem;
+  width: 65rem;
   padding: 2rem;
-  font-size: 1.25rem;
+  font-size: 1.5rem;
 `
 
 const ButtonWrapper = styled.div`
@@ -72,7 +72,7 @@ const RadioButtonLabel = styled.span`
   padding: 0.375em 0.75em 0.375em 2.375em;
   border-radius: 99em;
   transition: 0.25s ease;
-  font-size: 1.375rem;
+  font-size: 1.625rem;
   ::before {
     position: absolute;
     display: flex;
@@ -92,8 +92,8 @@ const RadioButton = styled.input`
       transition: 0.25s ease;
       width: 2px;
       height: 2px;
-      top: 0.1rem;
-      left: 1rem;
+      top: 0.5rem;
+      left: 2rem;
       box-shadow: 2px 2px, 4px 2px, 2px 4px, 4px 4px, 6px 4px, 8px 4px, 2px 6px,
         4px 6px, 6px 6px, 8px 6px, 10px 6px, 2px 8px, 4px 8px, 6px 8px, 8px 8px,
         10px 8px, 12px 8px, 2px 10px, 4px 10px, 6px 10px, 8px 10px, 10px 10px,
