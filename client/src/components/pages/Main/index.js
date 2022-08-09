@@ -5,7 +5,7 @@ import API from '../../../util/api'
 import Tabs from '../../layout/Tabs'
 import Button from '../../common/Button'
 import Counter from '../../common/Counter'
-import Payment from '../../layout/Payment'
+import PaymentModal from '../../layout/PaymentModal'
 import LoadingIndicator from '../../common/LoadingIndicator'
 import Receipt from '../../layout/Receipt'
 import CartLayout from '../../layout/CartLayout'
@@ -179,12 +179,12 @@ function Main() {
             )}
           </PaymentLayout>
           {step === 'payment' && (
-            <Payment
+            <PaymentModal
               onHandleLoading={handleLoading}
               onHandleSubmit={handleSubmitOrder}
               onHandleClearMenu={handleClearMenu}
               setStep={setStep}
-            ></Payment>
+            ></PaymentModal>
           )}
           {step === 'reciept' && (
             <Receipt
