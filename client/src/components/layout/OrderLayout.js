@@ -29,7 +29,7 @@ const OrderLayout = ({ selectMenu, step, setStep, setSelectMenu }) => {
           <TimerWrapper>
             <TimerLabel>남은 시간</TimerLabel>
             <Counter
-              onHandleTimeout={() => setSelectMenu([])}
+              onTimeout={() => setSelectMenu([])}
               stop={step !== 'main'}
             ></Counter>
           </TimerWrapper>

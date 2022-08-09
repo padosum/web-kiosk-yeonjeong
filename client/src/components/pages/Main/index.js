@@ -31,6 +31,10 @@ function Main() {
   const orderNum = payment.orderNum
   const totalAmount = selectMenu.reduce((acc, curr) => acc + curr.price, 0)
 
+  const fetchMenu = () => {
+    return API.get(`/api/menu`)
+  }
+
   useEffect(() => {
     const getData = async () => {
       try {
@@ -100,10 +104,6 @@ function Main() {
     }
   }
 
-  const fetchMenu = () => {
-    return API.get(`/api/menu`)
-  }
-
   return (
     <>
       {loading && (
@@ -114,7 +114,7 @@ function Main() {
       {menu ? (
         <>
           <ItemsLayout>
-            <Tabs menu={menu} handleSelectMenu={handleSelectMenu}></Tabs>
+            <Tabs menu={menu} onSelectMenu={handleSelectMenu}></Tabs>
           </ItemsLayout>
           <CashLayout
             totalAmount={totalAmount}
@@ -126,7 +126,7 @@ function Main() {
           <CartLayout
             selectMenu={selectMenu}
             step={step}
-            handleRemoveMenu={handleRemoveMenu}
+            onClickRemoveMenu={handleRemoveMenu}
           ></CartLayout>
           <OrderLayout
             selectMenu={selectMenu}
@@ -136,7 +136,7 @@ function Main() {
           ></OrderLayout>
           {step === 'payment' && (
             <PaymentModal
-              onHandleSubmit={handleSubmitOrder}
+              onSubmit={handleSubmitOrder}
               setLoading={setLoading}
               setStep={setStep}
               setSelectMenu={setSelectMenu}

@@ -36,7 +36,7 @@ const TabsContainer = styled.ul`
   }
 `
 
-const Tabs = ({ menu, handleSelectMenu }) => {
+const Tabs = ({ menu, onSelectMenu }) => {
   const [tabIndex, setTabIndex] = useState(0)
 
   const wrapperRef = React.useRef()
@@ -100,14 +100,14 @@ const Tabs = ({ menu, handleSelectMenu }) => {
                 key={id}
                 id={id}
                 value={title}
-                clickTab={handleClick}
+                onClickTab={handleClick}
                 active={id === tabIndex + 1}
               />
             )
           })}
         </TabsContainer>
       </TabsWrapper>
-      <TabPanel menu={menu[tabIndex]?.menu} onSelectMenu={handleSelectMenu} />
+      <TabPanel menu={menu[tabIndex]?.menu} onSelectMenu={onSelectMenu} />
     </>
   )
 }

@@ -204,7 +204,6 @@ const MenuDetailModal = ({ menu, onModalVisible, onSelectMenu }) => {
   }
 
   const handleOverlayClick = (e) => {
-    console.log(`ovrlay`)
     e.preventDefault()
 
     onModalVisible(false)

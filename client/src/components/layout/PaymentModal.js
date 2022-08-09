@@ -25,11 +25,11 @@ const ButtonWrapper = styled.div`
   padding: 1.25rem;
 `
 
-const Payment = ({ onHandleSubmit, setLoading, setStep, setSelectMenu }) => {
+const Payment = ({ onSubmit, setLoading, setStep, setSelectMenu }) => {
   const [modalVisible, setModalVisible] = useState(false)
 
   const handleCashPayment = () => {
-    onHandleSubmit({ id: 1, title: '현금' })
+    onSubmit({ id: 1, title: '현금' })
   }
 
   const handleCardPayment = () => {
@@ -42,7 +42,7 @@ const Payment = ({ onHandleSubmit, setLoading, setStep, setSelectMenu }) => {
     )
     setTimeout(() => {
       setLoading((prevLoading) => !prevLoading)
-      onHandleSubmit({ id: 2, title: '카드' })
+      onSubmit({ id: 2, title: '카드' })
     }, rand * 1000)
   }
 
@@ -74,8 +74,8 @@ const Payment = ({ onHandleSubmit, setLoading, setStep, setSelectMenu }) => {
       {modalVisible && (
         <ConfirmModal
           title="결제를 취소하시겠습니까?"
-          onHandleCancel={() => setModalVisible(false)}
-          onHandleAccept={() => {
+          onCancel={() => setModalVisible(false)}
+          onAccept={() => {
             setModalVisible(false)
             setStep('main')
             setSelectMenu([])

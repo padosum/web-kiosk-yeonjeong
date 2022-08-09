@@ -73,7 +73,7 @@ const OptionWrapper = styled.span`
   font-size: 1.25rem;
 `
 
-const CartLayout = ({ selectMenu, step, handleRemoveMenu }) => {
+const CartLayout = ({ selectMenu, step, onClickRemoveMenu }) => {
   return (
     <CartLayoutStyle>
       {selectMenu.length > 0 &&
@@ -83,7 +83,9 @@ const CartLayout = ({ selectMenu, step, handleRemoveMenu }) => {
               <ButtonWrapper>
                 {step !== 'cash' && (
                   <button
-                    onClick={() => handleRemoveMenu(item.menuId, item.optionId)}
+                    onClick={() =>
+                      onClickRemoveMenu(item.menuId, item.optionId)
+                    }
                   >
                     X
                   </button>
