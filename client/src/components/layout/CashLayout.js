@@ -34,6 +34,7 @@ const CashLayout = ({
       {amountList.map((amount) => {
         return (
           <Button
+            key={amount}
             size="lg"
             variant="normal"
             data-amount={amount}
