@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import Tab from './Tab'
 import API from '../util/api'
 import TabPanel from './TabPanel'
@@ -34,6 +34,11 @@ const CartLayout = styled.section`
   overflow: scroll;
   padding: 1rem;
   box-shadow: inset -4px -4px 0px 0px #353535;
+  ${(props) =>
+    props.step === 'cash' &&
+    css`
+      opacity: 0.6;
+    `}
 `
 
 const ButtonWrapper = styled.div`
@@ -94,7 +99,7 @@ const PaymentLayout = styled.section`
   display: flex;
   flex-direction: column;
   grid-area: payment;
-  justify-content: space-between;
+  justify-content: space-around;
 `
 const TimerWrapper = styled.div`
   display: flex;
@@ -155,11 +160,10 @@ function Main() {
   const [errorMessage, setErrorMessge] = useState('')
   const [step, setStep] = useState('main')
   const [payment, setPayment] = useState({})
-
+  const [paymentAmount, setPaymentAmount] = useState(0)
   const paymentId = payment.id
   const paymentTitle = payment.title
   const orderNum = payment.orderNum
-  const paymentAmount = selectMenu.reduce((acc, curr) => acc + curr.price, 0)
   const totalAmount = selectMenu.reduce((acc, curr) => acc + curr.price, 0)
 
   const handleLoading = () => {
@@ -200,27 +204,30 @@ function Main() {
     setSelectMenu(newArrayOfMenu)
   }
 
+  const orderMenu = async ({ id, title }) => {
+    const orderNum = await API.post('/api/orders', {
+      paymentId: id,
+      paymentAmount: id === 1 ? paymentAmount : totalAmount,
+      totalAmount,
+      menu: [...selectMenu],
+    })
+
+    setPayment({
+      id,
+      title,
+      orderNum,
+    })
+
+    setStep('reciept')
+
+    const data = await fetchMenu()
+    setMenu(data)
+  }
   const handleSubmitOrder = async ({ id, title }) => {
     if (id === 1) {
       setStep('cash')
     } else {
-      const orderNum = await API.post('/api/orders', {
-        paymentId: id,
-        paymentAmount,
-        totalAmount,
-        menu: [...selectMenu],
-      })
-
-      setPayment({
-        id,
-        title,
-        orderNum,
-      })
-
-      setStep('reciept')
-
-      const data = await fetchMenu()
-      setMenu(data)
+      orderMenu({ id, title })
     }
   }
   const fetchMenu = () => {
@@ -310,36 +317,76 @@ function Main() {
               value={totalAmount.toLocaleString()}
               color="white"
             ></Input>
-            <Input title="투입금액" value={0} color="white"></Input>
-            <Button size="lg" variant="normal" disabled={step !== 'cash'}>
-              500원
-            </Button>
-            <Button size="lg" variant="normal" disabled={step !== 'cash'}>
+            <Input title="투입금액" value={paymentAmount} color="white"></Input>
+            <Button
+              size="lg"
+              variant="normal"
+              data-amount={100}
+              disabled={step !== 'cash'}
+              onClick={() =>
+                setPaymentAmount((prevPaymentAmout) => prevPaymentAmout + 100)
+              }
+            >
               100원
             </Button>
-            <Button size="lg" variant="normal" disabled={step !== 'cash'}>
+            <Button
+              size="lg"
+              variant="normal"
+              data-amount={500}
+              disabled={step !== 'cash'}
+              onClick={() =>
+                setPaymentAmount((prevPaymentAmout) => prevPaymentAmout + 500)
+              }
+            >
+              500원
+            </Button>
+
+            <Button
+              size="lg"
+              variant="normal"
+              data-amount={1000}
+              disabled={step !== 'cash'}
+              onClick={() =>
+                setPaymentAmount((prevPaymentAmout) => prevPaymentAmout + 1000)
+              }
+            >
               1,000원
             </Button>
-            <Button size="lg" variant="normal" disabled={step !== 'cash'}>
+            <Button
+              size="lg"
+              variant="normal"
+              data-amount={10000}
+              disabled={step !== 'cash'}
+              onClick={() =>
+                setPaymentAmount((prevPaymentAmout) => prevPaymentAmout + 10000)
+              }
+            >
               10,000원
             </Button>
-            <Button size="lg" variant="warning" disabled={step !== 'cash'}>
+            <Button
+              size="lg"
+              variant="warning"
+              disabled={step !== 'cash' || totalAmount > paymentAmount}
+              onClick={() => orderMenu({ id: 1, title: '현금' })}
+            >
               현금 결제하기
             </Button>
           </CashLayout>
-          <CartLayout>
+          <CartLayout step={step}>
             {selectMenu.length > 0 &&
               selectMenu.map((item) => {
                 return (
                   <SelectItemWrapper key={item.menuId}>
                     <ButtonWrapper>
-                      <button
-                        onClick={() =>
-                          handleRemoveMenu(item.menuId, item.optionId)
-                        }
-                      >
-                        X
-                      </button>
+                      {step !== 'cash' && (
+                        <button
+                          onClick={() =>
+                            handleRemoveMenu(item.menuId, item.optionId)
+                          }
+                        >
+                          X
+                        </button>
+                      )}
                     </ButtonWrapper>
                     <Container title={item.title}>
                       <ItemImage
