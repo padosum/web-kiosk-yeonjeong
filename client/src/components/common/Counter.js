@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import Input from './Input'
 
-const Counter = ({ stop, onTimeout }) => {
-  const [counter, setCounter] = useState(10)
+const Counter = ({ seconds, stop, onTimeout }) => {
+  const [counter, setCounter] = useState(seconds)
 
   useEffect(() => {
     const interval = setInterval(() => {
