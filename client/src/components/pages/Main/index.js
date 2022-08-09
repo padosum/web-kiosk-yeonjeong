@@ -151,6 +151,7 @@ function Main() {
               paymentAmount={paymentAmount}
               totalAmount={totalAmount}
               setStep={setStep}
+              setSelectMenu={setSelectMenu}
             ></Receipt>
           )}
         </>
