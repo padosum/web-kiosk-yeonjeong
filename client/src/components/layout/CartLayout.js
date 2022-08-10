@@ -74,9 +74,9 @@ const OptionWrapper = styled.span`
 `
 
 const CartLayout = ({ selectMenu, setSelectMenu, step }) => {
-  const handleRemoveMenu = ({ menuId, optionId }) => {
+  const handleRemoveMenu = ({ menuId, optionDetailId }) => {
     const filterMenu = selectMenu.filter((menu) => {
-      return !(menu.menuId === menuId && menu.optionId === optionId)
+      return !(menu.menuId === menuId && menu.optionDetailId === optionDetailId)
     })
     setSelectMenu(filterMenu)
   }
@@ -86,7 +86,7 @@ const CartLayout = ({ selectMenu, setSelectMenu, step }) => {
       {selectMenu.length > 0 &&
         selectMenu.map((item) => {
           return (
-            <SelectItemWrapper key={item.menuId}>
+            <SelectItemWrapper key={item.menuId + item.optionDetailId}>
               <ButtonWrapper>
                 {step !== 'cash' && (
                   <button onClick={() => handleRemoveMenu(item)}>X</button>
