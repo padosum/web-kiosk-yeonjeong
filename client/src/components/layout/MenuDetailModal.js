@@ -101,7 +101,12 @@ const handleImgError = (e) => {
   e.target.src = 'images/1.png'
 }
 
-const MenuDetailModal = ({ menu, onModalVisible, onSelectMenu }) => {
+const MenuDetailModal = ({
+  menu,
+  selectMenu,
+  setSelectMenu,
+  onModalVisible,
+}) => {
   const [quantity, setQuantity] = useState(1)
 
   const options = menu.optionId.reduce((acc, curr, idx) => {
@@ -159,6 +164,26 @@ const MenuDetailModal = ({ menu, onModalVisible, onSelectMenu }) => {
     }
   }
 
+  const addToCart = (menu) => {
+    const addedMenu = [...selectMenu, menu]
+    const newArrayOfMenu = addedMenu.reduce((acc, obj) => {
+      let objectFound = acc.find(
+        (arrItem) =>
+          arrItem.menuId === obj.menuId &&
+          arrItem.optionDetailId === obj.optionDetailId
+      )
+      if (objectFound) {
+        objectFound.quantity = objectFound.quantity + obj.quantity
+      } else {
+        acc.push(obj)
+      }
+
+      return acc
+    }, [])
+
+    setSelectMenu(newArrayOfMenu)
+  }
+
   const onSubmitBtn = () => {
     onModalVisible(false)
     let optionId = []
@@ -170,7 +195,7 @@ const MenuDetailModal = ({ menu, onModalVisible, onSelectMenu }) => {
       optionSurcharge.push(item.surcharge)
     })
 
-    onSelectMenu({
+    addToCart({
       title: menu.title,
       price: totalPrice,
       categoryId: menu.categoryId,

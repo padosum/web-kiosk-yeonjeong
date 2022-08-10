@@ -39,25 +39,6 @@ function Main() {
   const orderNum = payment.orderNum
   const totalAmount = selectMenu.reduce((acc, curr) => acc + curr.price, 0)
 
-  const handleSelectMenu = (menu) => {
-    const addedMenu = [...selectMenu, menu]
-    const newArrayOfMenu = addedMenu.reduce((acc, obj) => {
-      let objectFound = acc.find(
-        (arrItem) =>
-          arrItem.menuId === obj.menuId && arrItem.optionId === obj.optionId
-      )
-      if (objectFound) {
-        objectFound.quantity = objectFound.quantity + obj.quantity
-      } else {
-        acc.push(obj)
-      }
-
-      return acc
-    }, [])
-
-    setSelectMenu(newArrayOfMenu)
-  }
-
   const orderMenu = async ({ id, title }) => {
     const orderNum = await API.post(`${BASE_URL}/api/orders`, {
       paymentId: id,
@@ -81,7 +62,8 @@ function Main() {
         <Tabs
           step={step}
           setStep={setStep}
-          onSelectMenu={handleSelectMenu}
+          selectMenu={selectMenu}
+          setSelectMenu={setSelectMenu}
         ></Tabs>
       </MenuItemsLayout>
       <CashLayout

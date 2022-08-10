@@ -6,7 +6,7 @@ import Container from '../common/Container'
 import ItemImageContainer from '../common/ItemImageContainer'
 import MenuDetailModal from './MenuDetailModal'
 
-const MenuItem = ({ item, onSelectMenu, popular, step }) => {
+const MenuItem = ({ item, selectMenu, setSelectMenu, popular, step }) => {
   const [modalVisible, setModalVisible] = useState(false)
 
   useKeyEscClose(() => onModalVisible(false))
@@ -44,8 +44,9 @@ const MenuItem = ({ item, onSelectMenu, popular, step }) => {
       {modalVisible && (
         <MenuDetailModal
           menu={item}
+          selectMenu={selectMenu}
+          setSelectMenu={setSelectMenu}
           onModalVisible={onModalVisible}
-          onSelectMenu={onSelectMenu}
         ></MenuDetailModal>
       )}
     </>

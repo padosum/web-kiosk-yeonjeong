@@ -38,7 +38,7 @@ const TabsContainer = styled.ul`
   }
 `
 
-const Tabs = ({ step, setStep, onSelectMenu }) => {
+const Tabs = ({ step, setStep, selectMenu, setSelectMenu }) => {
   const [menu, error, loading] = useMenuApi({ step })
   const [tabIndex, setTabIndex] = useState(0)
 
@@ -120,7 +120,12 @@ const Tabs = ({ step, setStep, onSelectMenu }) => {
           })}
         </TabsContainer>
       </TabsWrapper>
-      <TabPanel menu={menuByCategory} onSelectMenu={onSelectMenu} step={step} />
+      <TabPanel
+        step={step}
+        menu={menuByCategory}
+        selectMenu={selectMenu}
+        setSelectMenu={setSelectMenu}
+      />
     </>
   )
 }

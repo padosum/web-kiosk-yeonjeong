@@ -17,15 +17,15 @@ const ItemWrapper = styled.section`
   box-shadow: inset -4px -4px 0px 0px #adafbc;
 `
 
-const TabPanel = ({ menu, onModalVisible, onSelectMenu, step }) => {
+const TabPanel = ({ step, menu, selectMenu, setSelectMenu }) => {
   return (
     <ItemWrapper>
       {menu?.map((item, index) => (
         <MenuItem
           key={item.menuId}
           item={item}
-          onModalVisible={onModalVisible}
-          onSelectMenu={onSelectMenu}
+          selectMenu={selectMenu}
+          setSelectMenu={setSelectMenu}
           popular={item.salesCnt > 0 && index === 0}
           step={step}
         />
