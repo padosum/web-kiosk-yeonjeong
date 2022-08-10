@@ -120,7 +120,7 @@ const Tabs = ({ step, setStep, onSelectMenu }) => {
           })}
         </TabsContainer>
       </TabsWrapper>
-      <TabPanel menu={menuByCategory} onSelectMenu={onSelectMenu} />
+      <TabPanel menu={menuByCategory} onSelectMenu={onSelectMenu} step={step} />
     </>
   )
 }

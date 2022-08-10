@@ -6,7 +6,7 @@ import Container from '../common/Container'
 import ItemImageContainer from '../common/ItemImageContainer'
 import MenuDetailModal from './MenuDetailModal'
 
-const MenuItem = ({ item, onSelectMenu, popular }) => {
+const MenuItem = ({ item, onSelectMenu, popular, step }) => {
   const [modalVisible, setModalVisible] = useState(false)
 
   useKeyEscClose(() => onModalVisible(false))
@@ -36,6 +36,7 @@ const MenuItem = ({ item, onSelectMenu, popular }) => {
           onClick={() => onModalVisible(true)}
           size="sm"
           variant="primary"
+          disabled={step === 'cash'}
         >
           {item.price.toLocaleString()}
         </Button>

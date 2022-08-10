@@ -17,8 +17,7 @@ const ItemWrapper = styled.section`
   box-shadow: inset -4px -4px 0px 0px #adafbc;
 `
 
-const TabPanel = (props) => {
-  const { menu, onModalVisible, onSelectMenu } = props
+const TabPanel = ({ menu, onModalVisible, onSelectMenu, step }) => {
   return (
     <ItemWrapper>
       {menu?.map((item, index) => (
@@ -28,6 +27,7 @@ const TabPanel = (props) => {
           onModalVisible={onModalVisible}
           onSelectMenu={onSelectMenu}
           popular={item.salesCnt > 0 && index === 0}
+          step={step}
         />
       ))}
     </ItemWrapper>
