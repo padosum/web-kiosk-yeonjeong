@@ -17,6 +17,8 @@ const ItemsLayout = styled.section`
   justify-content: center;
 `
 
+const BASE_URL = process.env.REACT_APP_API_HOST
+
 function Main() {
   const [menu, setMenu] = useState(null)
   const [loading, setLoading] = useState(true)
@@ -32,7 +34,7 @@ function Main() {
   const totalAmount = selectMenu.reduce((acc, curr) => acc + curr.price, 0)
 
   const fetchMenu = () => {
-    return API.get(`/api/menu`)
+    return API.get(`${BASE_URL}/api/menu`)
   }
 
   useEffect(() => {
@@ -77,7 +79,7 @@ function Main() {
   }
 
   const orderMenu = async ({ id, title }) => {
-    const orderNum = await API.post('/api/orders', {
+    const orderNum = await API.post(`${BASE_URL}/api/orders`, {
       paymentId: id,
       paymentAmount: id === 1 ? paymentAmount : totalAmount,
       totalAmount,
