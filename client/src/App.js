@@ -33,13 +33,22 @@ const MainPageLayout = styled.div`
   }
 `
 
-const AppTitle = styled.h1``
+const Image = styled.img`
+  width: 32px;
+  height: 32px; ;
+`
+const AppTitle = styled.h1`
+  display: flex;
+  align-items: center;
+`
 
 function App() {
   return (
     <>
       <GlobaStyle />
-      <AppTitle>우아 키오스크</AppTitle>
+      <AppTitle>
+        <Image src="/images/logo.png" alt="logo"></Image>우아 키오스크
+      </AppTitle>
       <MainPageLayout className="App">
         <Main />
       </MainPageLayout>
