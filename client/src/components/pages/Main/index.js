@@ -24,6 +24,12 @@ function Main() {
   const [payment, setPayment] = useState({})
   const [paymentAmount, setPaymentAmount] = useState(0)
 
+  useEffect(() => {
+    if (step === 'main') {
+      setSelectMenu([])
+    }
+  }, [step])
+
   if (step === 'error') {
     return <h1>오류가 발생했습니다.</h1>
   }
@@ -86,49 +92,47 @@ function Main() {
 
   return (
     <>
-          <ItemsLayout>
+      <ItemsLayout>
         <Tabs
           step={step}
           setStep={setStep}
           onSelectMenu={handleSelectMenu}
         ></Tabs>
-          </ItemsLayout>
-          <CashLayout
-            totalAmount={totalAmount}
-            paymentAmount={paymentAmount}
-            step={step}
-            setPaymentAmount={setPaymentAmount}
-            orderMenu={orderMenu}
-          ></CashLayout>
-          <CartLayout
-            selectMenu={selectMenu}
-            step={step}
-            onClickRemoveMenu={handleRemoveMenu}
-          ></CartLayout>
-          <OrderLayout
-            selectMenu={selectMenu}
-            step={step}
-            setStep={setStep}
-            setSelectMenu={setSelectMenu}
-          ></OrderLayout>
-          {step === 'payment' && (
-            <PaymentModal
-              onSubmit={handleSubmitOrder}
-              setLoading={setLoading}
-              setStep={setStep}
-            ></PaymentModal>
-          )}
+      </ItemsLayout>
+      <CashLayout
+        totalAmount={totalAmount}
+        paymentAmount={paymentAmount}
+        step={step}
+        setPaymentAmount={setPaymentAmount}
+        orderMenu={orderMenu}
+      ></CashLayout>
+      <CartLayout
+        selectMenu={selectMenu}
+        step={step}
+        onClickRemoveMenu={handleRemoveMenu}
+      ></CartLayout>
+      <OrderLayout
+        selectMenu={selectMenu}
+        step={step}
+        setStep={setStep}
+        setSelectMenu={setSelectMenu}
+      ></OrderLayout>
+      {step === 'payment' && (
+        <PaymentModal
+          onSubmit={handleSubmitOrder}
+          setStep={setStep}
+        ></PaymentModal>
+      )}
       {step === 'receipt' && (
-            <Receipt
-              orderNum={orderNum}
-              orderMenu={selectMenu}
-              paymentId={paymentId}
-              paymentTitle={paymentTitle}
-              paymentAmount={paymentAmount}
-              totalAmount={totalAmount}
-              setStep={setStep}
-              setSelectMenu={setSelectMenu}
-            ></Receipt>
+        <Receipt
+          orderNum={orderNum}
+          orderMenu={selectMenu}
+          paymentId={paymentId}
+          paymentTitle={paymentTitle}
+          paymentAmount={paymentAmount}
+          totalAmount={totalAmount}
+          setStep={setStep}
+        ></Receipt>
       )}
     </>
   )

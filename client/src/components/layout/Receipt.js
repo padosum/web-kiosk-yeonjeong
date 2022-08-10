@@ -60,12 +60,10 @@ const Receipt = ({
   paymentAmount,
   totalAmount,
   setStep,
-  setSelectMenu,
 }) => {
   const [counter, setCounter] = useState(10)
   const handleNextStep = () => {
     setStep('main')
-    setSelectMenu([])
   }
 
   useEffect(() => {

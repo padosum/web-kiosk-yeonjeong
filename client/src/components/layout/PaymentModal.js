@@ -5,6 +5,7 @@ import Button from '../common/Button'
 import styled from 'styled-components'
 import ConfirmModal from '../common/ConfirmModal'
 import CloseButton from '../common/CloseButton'
+import LoadingIndicator from '../common/LoadingIndicator'
 
 const PaymentLayout = styled.div`
   width: 55rem;
@@ -25,8 +26,9 @@ const ButtonWrapper = styled.div`
   padding: 1.25rem;
 `
 
-const Payment = ({ onSubmit, setLoading, setStep, setSelectMenu }) => {
+const Payment = ({ onSubmit, setStep }) => {
   const [modalVisible, setModalVisible] = useState(false)
+  const [loading, setLoading] = useState(false)
 
   const handleCashPayment = () => {
     onSubmit({ id: 1, title: '현금' })
@@ -48,6 +50,7 @@ const Payment = ({ onSubmit, setLoading, setStep, setSelectMenu }) => {
 
   return (
     <>
+      {loading && <LoadingIndicator title="결제 중입니다."></LoadingIndicator>}
       <Modal>
         <ButtonWrapper>
           <CloseButton
@@ -78,7 +81,6 @@ const Payment = ({ onSubmit, setLoading, setStep, setSelectMenu }) => {
           onAccept={() => {
             setModalVisible(false)
             setStep('main')
-            setSelectMenu([])
           }}
         ></ConfirmModal>
       )}
