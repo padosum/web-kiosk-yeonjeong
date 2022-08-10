@@ -1,5 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
+import useMenuApi from '../../hooks/useMenuApi'
+import LoadingIndicator from '../common/LoadingIndicator'
 import Tab from './Tab'
 import TabPanel from './TabPanel'
 
@@ -36,11 +38,12 @@ const TabsContainer = styled.ul`
   }
 `
 
-const Tabs = ({ menu, onSelectMenu }) => {
+const Tabs = ({ step, setStep, onSelectMenu }) => {
+  const [menu, error, loading] = useMenuApi({ step })
   const [tabIndex, setTabIndex] = useState(0)
 
-  const wrapperRef = React.useRef()
-  const containerRef = React.useRef()
+  const wrapperRef = useRef()
+  const containerRef = useRef()
   let startX = useRef(0)
   let scrollLeft = useRef(0)
   let wait = useRef(false)
@@ -86,6 +89,16 @@ const Tabs = ({ menu, onSelectMenu }) => {
     })
   }, [])
 
+  if (error) {
+    setStep('error')
+    return null
+  }
+
+  if (loading) {
+    return <LoadingIndicator title={'잠시 기다려 주세요'}></LoadingIndicator>
+  }
+
+  const menuByCategory = menu[tabIndex]?.menu
   return (
     <>
       <TabsWrapper ref={wrapperRef}>
@@ -107,7 +120,7 @@ const Tabs = ({ menu, onSelectMenu }) => {
           })}
         </TabsContainer>
       </TabsWrapper>
-      <TabPanel menu={menu[tabIndex]?.menu} onSelectMenu={onSelectMenu} />
+      <TabPanel menu={menuByCategory} onSelectMenu={onSelectMenu} />
     </>
   )
 }

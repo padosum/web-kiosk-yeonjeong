@@ -4,7 +4,6 @@ import styled from 'styled-components'
 import API from '../../../util/api'
 import Tabs from '../../layout/Tabs'
 import PaymentModal from '../../layout/PaymentModal'
-import LoadingIndicator from '../../common/LoadingIndicator'
 import Receipt from '../../layout/Receipt'
 import CartLayout from '../../layout/CartLayout'
 import CashLayout from '../../layout/CashLayout'
@@ -20,37 +19,19 @@ const ItemsLayout = styled.section`
 const BASE_URL = process.env.REACT_APP_API_HOST
 
 function Main() {
-  const [menu, setMenu] = useState(null)
-  const [loading, setLoading] = useState(true)
   const [selectMenu, setSelectMenu] = useState([])
-  const [errorMessage, setErrorMessge] = useState('')
   const [step, setStep] = useState('main')
   const [payment, setPayment] = useState({})
   const [paymentAmount, setPaymentAmount] = useState(0)
+
+  if (step === 'error') {
+    return <h1>오류가 발생했습니다.</h1>
+  }
 
   const paymentId = payment.id
   const paymentTitle = payment.title
   const orderNum = payment.orderNum
   const totalAmount = selectMenu.reduce((acc, curr) => acc + curr.price, 0)
-
-  const fetchMenu = () => {
-    return API.get(`${BASE_URL}/api/menu`)
-  }
-
-  useEffect(() => {
-    const getData = async () => {
-      try {
-        const data = await fetchMenu()
-        setMenu(data)
-      } catch (err) {
-        setMenu(null)
-        setErrorMessge(err.message)
-      } finally {
-        setLoading(false)
-      }
-    }
-    getData()
-  }, [])
 
   const handleRemoveMenu = (menuId, optionId) => {
     const filterMenu = selectMenu.filter((menu) => {
@@ -92,10 +73,7 @@ function Main() {
       orderNum,
     })
 
-    setStep('reciept')
-
-    const data = await fetchMenu()
-    setMenu(data)
+    setStep('receipt')
   }
 
   const handleSubmitOrder = async ({ id, title }) => {
@@ -108,15 +86,12 @@ function Main() {
 
   return (
     <>
-      {loading && (
-        <LoadingIndicator
-          title={step === 'payment' ? '카드 결제 중' : '잠시 기다려 주세요'}
-        ></LoadingIndicator>
-      )}
-      {menu ? (
-        <>
           <ItemsLayout>
-            <Tabs menu={menu} onSelectMenu={handleSelectMenu}></Tabs>
+        <Tabs
+          step={step}
+          setStep={setStep}
+          onSelectMenu={handleSelectMenu}
+        ></Tabs>
           </ItemsLayout>
           <CashLayout
             totalAmount={totalAmount}
@@ -141,10 +116,9 @@ function Main() {
               onSubmit={handleSubmitOrder}
               setLoading={setLoading}
               setStep={setStep}
-              setSelectMenu={setSelectMenu}
             ></PaymentModal>
           )}
-          {step === 'reciept' && (
+      {step === 'receipt' && (
             <Receipt
               orderNum={orderNum}
               orderMenu={selectMenu}
@@ -155,10 +129,6 @@ function Main() {
               setStep={setStep}
               setSelectMenu={setSelectMenu}
             ></Receipt>
-          )}
-        </>
-      ) : (
-        <div>{errorMessage}</div>
       )}
     </>
   )
