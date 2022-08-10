@@ -9,7 +9,7 @@ import CartLayout from '../../layout/CartLayout'
 import CashLayout from '../../layout/CashLayout'
 import OrderLayout from '../../layout/OrderLayout'
 
-const ItemsLayout = styled.section`
+const MenuItemsLayout = styled.section`
   display: flex;
   grid-area: items;
   flex-direction: column;
@@ -82,23 +82,15 @@ function Main() {
     setStep('receipt')
   }
 
-  const handleSubmitOrder = async ({ id, title }) => {
-    if (id === 1) {
-      setStep('cash')
-    } else {
-      orderMenu({ id, title })
-    }
-  }
-
   return (
     <>
-      <ItemsLayout>
+      <MenuItemsLayout>
         <Tabs
           step={step}
           setStep={setStep}
           onSelectMenu={handleSelectMenu}
         ></Tabs>
-      </ItemsLayout>
+      </MenuItemsLayout>
       <CashLayout
         totalAmount={totalAmount}
         paymentAmount={paymentAmount}
@@ -118,10 +110,7 @@ function Main() {
         setSelectMenu={setSelectMenu}
       ></OrderLayout>
       {step === 'payment' && (
-        <PaymentModal
-          onSubmit={handleSubmitOrder}
-          setStep={setStep}
-        ></PaymentModal>
+        <PaymentModal setStep={setStep} orderMenu={orderMenu}></PaymentModal>
       )}
       {step === 'receipt' && (
         <Receipt

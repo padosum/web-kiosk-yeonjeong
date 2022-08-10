@@ -26,13 +26,9 @@ const ButtonWrapper = styled.div`
   padding: 1.25rem;
 `
 
-const Payment = ({ onSubmit, setStep }) => {
+const Payment = ({ setStep, orderMenu }) => {
   const [modalVisible, setModalVisible] = useState(false)
   const [loading, setLoading] = useState(false)
-
-  const handleCashPayment = () => {
-    onSubmit({ id: 1, title: '현금' })
-  }
 
   const handleCardPayment = () => {
     setLoading((prevLoading) => !prevLoading)
@@ -44,7 +40,7 @@ const Payment = ({ onSubmit, setStep }) => {
     )
     setTimeout(() => {
       setLoading((prevLoading) => !prevLoading)
-      onSubmit({ id: 2, title: '카드' })
+      orderMenu({ id: 2, title: '카드' })
     }, rand * 1000)
   }
 
@@ -64,7 +60,11 @@ const Payment = ({ onSubmit, setStep }) => {
         <PaymentLayout>
           <Container title="결제수단 선택">
             <ButtonGroupWrapper>
-              <Button size="lg" variant="success" onClick={handleCashPayment}>
+              <Button
+                size="lg"
+                variant="success"
+                onClick={() => setStep('cash')}
+              >
                 현금
               </Button>
               <Button size="lg" variant="success" onClick={handleCardPayment}>
