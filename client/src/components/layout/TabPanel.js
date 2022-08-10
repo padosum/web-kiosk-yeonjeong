@@ -21,7 +21,7 @@ const TabPanel = (props) => {
   const { menu, onModalVisible, onSelectMenu } = props
   return (
     <ItemWrapper>
-      {menu.map((item, index) => (
+      {menu?.map((item, index) => (
         <MenuItem
           key={item.menuId}
           item={item}
