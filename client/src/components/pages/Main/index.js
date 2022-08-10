@@ -39,13 +39,6 @@ function Main() {
   const orderNum = payment.orderNum
   const totalAmount = selectMenu.reduce((acc, curr) => acc + curr.price, 0)
 
-  const handleRemoveMenu = (menuId, optionId) => {
-    const filterMenu = selectMenu.filter((menu) => {
-      return !(menu.menuId === menuId && menu.optionId === optionId)
-    })
-    setSelectMenu(filterMenu)
-  }
-
   const handleSelectMenu = (menu) => {
     const addedMenu = [...selectMenu, menu]
     const newArrayOfMenu = addedMenu.reduce((acc, obj) => {
@@ -100,8 +93,8 @@ function Main() {
       ></CashLayout>
       <CartLayout
         selectMenu={selectMenu}
+        setSelectMenu={setSelectMenu}
         step={step}
-        onClickRemoveMenu={handleRemoveMenu}
       ></CartLayout>
       <OrderLayout
         selectMenu={selectMenu}

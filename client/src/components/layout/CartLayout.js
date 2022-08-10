@@ -73,7 +73,14 @@ const OptionWrapper = styled.span`
   font-size: 1.25rem;
 `
 
-const CartLayout = ({ selectMenu, step, onClickRemoveMenu }) => {
+const CartLayout = ({ selectMenu, setSelectMenu, step }) => {
+  const handleRemoveMenu = ({ menuId, optionId }) => {
+    const filterMenu = selectMenu.filter((menu) => {
+      return !(menu.menuId === menuId && menu.optionId === optionId)
+    })
+    setSelectMenu(filterMenu)
+  }
+
   return (
     <CartLayoutStyle>
       {selectMenu.length > 0 &&
@@ -82,13 +89,7 @@ const CartLayout = ({ selectMenu, step, onClickRemoveMenu }) => {
             <SelectItemWrapper key={item.menuId}>
               <ButtonWrapper>
                 {step !== 'cash' && (
-                  <button
-                    onClick={() =>
-                      onClickRemoveMenu(item.menuId, item.optionId)
-                    }
-                  >
-                    X
-                  </button>
+                  <button onClick={() => handleRemoveMenu(item)}>X</button>
                 )}
               </ButtonWrapper>
               <Container title={item.title}>
