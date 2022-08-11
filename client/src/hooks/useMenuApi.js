@@ -9,7 +9,6 @@ const useMenuApi = ({ step }) => {
   const [loading, setLoading] = useState(false)
 
   const fetchMenu = () => {
-    console.log(`fetchMenu`, step)
     return API.get(`${BASE_URL}/api/menu`)
   }
 

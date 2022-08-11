@@ -7,6 +7,7 @@ import ConfirmModal from '../common/ConfirmModal'
 import CloseButton from '../common/CloseButton'
 import LoadingIndicator from '../common/LoadingIndicator'
 import API from '../../util/api'
+import AlertModal from '../common/AlertModal'
 
 const PaymentLayout = styled.div`
   width: 55rem;
@@ -32,25 +33,30 @@ const BASE_URL = process.env.REACT_APP_API_HOST
 const PaymentModal = ({ setStep, selectMenu, setPayment }) => {
   const [modalVisible, setModalVisible] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(false)
 
   const totalAmount = selectMenu.reduce((acc, curr) => acc + curr.price, 0)
 
   const orderMenuByCard = async () => {
-    const orderNum = await API.post(`${BASE_URL}/api/orders`, {
-      paymentId: 2,
-      paymentAmount: totalAmount,
-      totalAmount,
-      menu: [...selectMenu],
-    })
+    try {
+      const orderNum = await API.post(`${BASE_URL}/api/orders`, {
+        paymentId: 2,
+        paymentAmount: totalAmount,
+        totalAmount,
+        menu: [...selectMenu],
+      })
 
-    setPayment((prevPayment) => {
-      return {
-        ...prevPayment,
-        orderNum,
-      }
-    })
+      setPayment((prevPayment) => {
+        return {
+          ...prevPayment,
+          orderNum,
+        }
+      })
 
-    setStep('receipt')
+      setStep('receipt')
+    } catch (err) {
+      setError(true)
+    }
   }
 
   const handleClickPayment = ({ id, title }) => {
@@ -120,6 +126,12 @@ const PaymentModal = ({ setStep, selectMenu, setPayment }) => {
             setStep('main')
           }}
         ></ConfirmModal>
+      )}
+      {error && (
+        <AlertModal
+          message="결제 중 오류가 발생했습니다."
+          onClose={() => setError(false)}
+        ></AlertModal>
       )}
     </>
   )
