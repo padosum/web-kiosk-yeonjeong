@@ -1,4 +1,10 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Post,
+  HttpStatus,
+  HttpException,
+} from '@nestjs/common';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { OrdersRequestDto } from './dto/orders.request.dto';
 import { OrdersService } from './orders.service';
@@ -17,7 +23,15 @@ export class OrdersController {
     status: 200,
   })
   @Post()
-  createOrders(@Body() ordersData: OrdersRequestDto): Promise<number> {
-    return this.ordersService.create(ordersData);
+  async createOrders(@Body() ordersData: OrdersRequestDto) {
+    const num = await this.ordersService.create(ordersData);
+    if (!num) {
+      throw new HttpException(
+        `DATA INSERT ERROR`,
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    } else {
+      return num;
+    }
   }
 }
