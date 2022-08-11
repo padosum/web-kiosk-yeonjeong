@@ -52,13 +52,7 @@ const MessageWrapper = styled.div`
   text-align: center;
 `
 
-const Receipt = ({
-  payment,
-  orderMenu,
-  paymentAmount,
-  totalAmount,
-  setStep,
-}) => {
+const Receipt = ({ payment, orderMenu, paymentAmount, setStep }) => {
   const [counter, setCounter] = useState(10)
   const handleNextStep = () => {
     setStep('main')
@@ -78,6 +72,7 @@ const Receipt = ({
 
   useKeyEscClose(() => handleNextStep)
 
+  const totalAmount = orderMenu.reduce((acc, curr) => acc + curr.price, 0)
   const changes = paymentAmount - totalAmount
   const { orderNum, id: paymentId, title: paymentTitle } = payment
   return (
