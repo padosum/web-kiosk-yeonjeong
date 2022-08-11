@@ -21,7 +21,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Screen-Shot][./images/Screen-Shot.png]](http://3.34.141.11:3000/)
+[![Screen-Shot](./images/Screen-Shot.png)](http://3.34.141.11:3000/)
 
 2022 우아한 테크캠프 5,6주차 미션 우아 키오스크입니다.
 메뉴를 선택해서 주문한 뒤 영수증을 조회할 수 있는 프로그램입니다.
