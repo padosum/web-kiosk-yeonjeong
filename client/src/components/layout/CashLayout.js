@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
+import useOrdersApi from '../../hooks/useOrdersApi'
 import API from '../../util/api'
 import AlertModal from '../common/AlertModal'
 import Button from '../common/Button'
@@ -13,8 +14,6 @@ const CashLayoutStyle = styled.section`
   padding-top: 1rem;
 `
 
-const BASE_URL = process.env.REACT_APP_API_HOST
-
 const CashLayout = ({
   step,
   setStep,
@@ -23,17 +22,17 @@ const CashLayout = ({
   paymentAmount,
   setPaymentAmount,
 }) => {
-  const [error, setError] = useState(false)
   const totalAmount = selectMenu.reduce((acc, curr) => acc + curr.price, 0)
-  const orderMenu = async () => {
-    try {
-      const orderNum = await API.post(`${BASE_URL}/api/orders`, {
-        paymentId: 1,
-        paymentAmount,
-        totalAmount,
-        menu: [...selectMenu],
-      })
 
+  const [orderNum, error, setError, createOrders] = useOrdersApi({
+    paymentId: 1,
+    paymentAmount,
+    totalAmount,
+    selectMenu,
+  })
+
+  useEffect(() => {
+    if (orderNum !== 0) {
       setPayment((prevPayment) => {
         return {
           ...prevPayment,
@@ -41,10 +40,8 @@ const CashLayout = ({
         }
       })
       setStep('receipt')
-    } catch (err) {
-      setError(true)
     }
-  }
+  }, [orderNum])
 
   const amountList = [100, 500, 1000, 10000]
   return (
@@ -88,7 +85,7 @@ const CashLayout = ({
           size="lg"
           variant="warning"
           disabled={step !== 'cash' || totalAmount > paymentAmount}
-          onClick={() => orderMenu()}
+          onClick={createOrders}
         >
           현금 결제하기
         </Button>

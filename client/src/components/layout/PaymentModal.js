@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Modal from '../common/Modal'
 import Container from '../common/Container'
 import Button from '../common/Button'
@@ -8,6 +8,7 @@ import CloseButton from '../common/CloseButton'
 import LoadingIndicator from '../common/LoadingIndicator'
 import API from '../../util/api'
 import AlertModal from '../common/AlertModal'
+import useOrdersApi from '../../hooks/useOrdersApi'
 
 const PaymentLayout = styled.div`
   width: 55rem;
@@ -28,24 +29,20 @@ const ButtonWrapper = styled.div`
   padding: 1.25rem;
 `
 
-const BASE_URL = process.env.REACT_APP_API_HOST
-
 const PaymentModal = ({ setStep, selectMenu, setPayment }) => {
   const [modalVisible, setModalVisible] = useState(false)
   const [loading, setLoading] = useState(false)
-  const [error, setError] = useState(false)
 
   const totalAmount = selectMenu.reduce((acc, curr) => acc + curr.price, 0)
 
-  const orderMenuByCard = async () => {
-    try {
-      const orderNum = await API.post(`${BASE_URL}/api/orders`, {
-        paymentId: 2,
-        paymentAmount: totalAmount,
-        totalAmount,
-        menu: [...selectMenu],
-      })
+  const [orderNum, error, setError, createOrders] = useOrdersApi({
+    paymentId: 2,
+    totalAmount,
+    selectMenu,
+  })
 
+  useEffect(() => {
+    if (orderNum !== 0) {
       setPayment((prevPayment) => {
         return {
           ...prevPayment,
@@ -54,10 +51,8 @@ const PaymentModal = ({ setStep, selectMenu, setPayment }) => {
       })
 
       setStep('receipt')
-    } catch (err) {
-      setError(true)
     }
-  }
+  }, [orderNum])
 
   const handleClickPayment = ({ id, title }) => {
     setPayment({
@@ -79,7 +74,7 @@ const PaymentModal = ({ setStep, selectMenu, setPayment }) => {
     )
     setTimeout(() => {
       setLoading(false)
-      orderMenuByCard()
+      createOrders()
     }, rand * 1000)
   }
 
