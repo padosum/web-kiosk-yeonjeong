@@ -6,6 +6,7 @@ import styled from 'styled-components'
 import ConfirmModal from '../common/ConfirmModal'
 import CloseButton from '../common/CloseButton'
 import LoadingIndicator from '../common/LoadingIndicator'
+import API from '../../util/api'
 
 const PaymentLayout = styled.div`
   width: 55rem;
@@ -26,12 +27,42 @@ const ButtonWrapper = styled.div`
   padding: 1.25rem;
 `
 
-const Payment = ({ setStep, orderMenu }) => {
+const BASE_URL = process.env.REACT_APP_API_HOST
+
+const PaymentModal = ({ setStep, selectMenu, setPayment, totalAmount }) => {
   const [modalVisible, setModalVisible] = useState(false)
   const [loading, setLoading] = useState(false)
 
-  const handleCardPayment = () => {
-    setLoading((prevLoading) => !prevLoading)
+  const orderMenuByCard = async () => {
+    const orderNum = await API.post(`${BASE_URL}/api/orders`, {
+      paymentId: 2,
+      paymentAmount: totalAmount,
+      totalAmount,
+      menu: [...selectMenu],
+    })
+
+    setPayment((prevPayment) => {
+      return {
+        ...prevPayment,
+        orderNum,
+      }
+    })
+
+    setStep('receipt')
+  }
+
+  const handleClickPayment = ({ id, title }) => {
+    setPayment({
+      id,
+      title,
+    })
+
+    if (id === 1) {
+      setStep('cash')
+      return
+    }
+
+    setLoading(true)
 
     const MIN_SECONDS = 3
     const MAX_SECONDS = 7
@@ -39,8 +70,8 @@ const Payment = ({ setStep, orderMenu }) => {
       Math.random() * (MAX_SECONDS - MIN_SECONDS + 1) + MIN_SECONDS
     )
     setTimeout(() => {
-      setLoading((prevLoading) => !prevLoading)
-      orderMenu({ id: 2, title: '카드' })
+      setLoading(false)
+      orderMenuByCard()
     }, rand * 1000)
   }
 
@@ -63,11 +94,15 @@ const Payment = ({ setStep, orderMenu }) => {
               <Button
                 size="lg"
                 variant="success"
-                onClick={() => setStep('cash')}
+                onClick={() => handleClickPayment({ id: 1, title: '현금' })}
               >
                 현금
               </Button>
-              <Button size="lg" variant="success" onClick={handleCardPayment}>
+              <Button
+                size="lg"
+                variant="success"
+                onClick={() => handleClickPayment({ id: 2, title: '카드' })}
+              >
                 카드
               </Button>
             </ButtonGroupWrapper>
@@ -88,4 +123,4 @@ const Payment = ({ setStep, orderMenu }) => {
   )
 }
 
-export default Payment
+export default PaymentModal

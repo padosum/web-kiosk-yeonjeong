@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 
-import API from '../../../util/api'
 import Tabs from '../../layout/Tabs'
 import PaymentModal from '../../layout/PaymentModal'
 import Receipt from '../../layout/Receipt'
@@ -15,8 +14,6 @@ const MenuItemsLayout = styled.section`
   flex-direction: column;
   justify-content: center;
 `
-
-const BASE_URL = process.env.REACT_APP_API_HOST
 
 function Main() {
   const [selectMenu, setSelectMenu] = useState([])
@@ -34,27 +31,7 @@ function Main() {
     return <h1>오류가 발생했습니다.</h1>
   }
 
-  const paymentId = payment.id
-  const paymentTitle = payment.title
-  const orderNum = payment.orderNum
   const totalAmount = selectMenu.reduce((acc, curr) => acc + curr.price, 0)
-
-  const orderMenu = async ({ id, title }) => {
-    const orderNum = await API.post(`${BASE_URL}/api/orders`, {
-      paymentId: id,
-      paymentAmount: id === 1 ? paymentAmount : totalAmount,
-      totalAmount,
-      menu: [...selectMenu],
-    })
-
-    setPayment({
-      id,
-      title,
-      orderNum,
-    })
-
-    setStep('receipt')
-  }
 
   return (
     <>
@@ -67,32 +44,37 @@ function Main() {
         ></Tabs>
       </MenuItemsLayout>
       <CashLayout
-        totalAmount={totalAmount}
-        paymentAmount={paymentAmount}
-        step={step}
-        setPaymentAmount={setPaymentAmount}
-        orderMenu={orderMenu}
-      ></CashLayout>
-      <CartLayout
-        selectMenu={selectMenu}
-        setSelectMenu={setSelectMenu}
-        step={step}
-      ></CartLayout>
-      <OrderLayout
-        selectMenu={selectMenu}
         step={step}
         setStep={setStep}
+        selectMenu={selectMenu}
+        setPayment={setPayment}
+        totalAmount={totalAmount}
+        paymentAmount={paymentAmount}
+        setPaymentAmount={setPaymentAmount}
+      ></CashLayout>
+      <CartLayout
+        step={step}
+        selectMenu={selectMenu}
+        setSelectMenu={setSelectMenu}
+      ></CartLayout>
+      <OrderLayout
+        step={step}
+        setStep={setStep}
+        selectMenu={selectMenu}
         setSelectMenu={setSelectMenu}
       ></OrderLayout>
       {step === 'payment' && (
-        <PaymentModal setStep={setStep} orderMenu={orderMenu}></PaymentModal>
+        <PaymentModal
+          setStep={setStep}
+          selectMenu={selectMenu}
+          setPayment={setPayment}
+          totalAmount={totalAmount}
+        ></PaymentModal>
       )}
       {step === 'receipt' && (
         <Receipt
-          orderNum={orderNum}
+          payment={payment}
           orderMenu={selectMenu}
-          paymentId={paymentId}
-          paymentTitle={paymentTitle}
           paymentAmount={paymentAmount}
           totalAmount={totalAmount}
           setStep={setStep}

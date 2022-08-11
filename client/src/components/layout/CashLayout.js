@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import API from '../../util/api'
 import Button from '../common/Button'
 import Input from '../common/Input'
 
@@ -11,13 +12,34 @@ const CashLayoutStyle = styled.section`
   padding-top: 1rem;
 `
 
+const BASE_URL = process.env.REACT_APP_API_HOST
+
 const CashLayout = ({
+  step,
+  setStep,
+  selectMenu,
+  setPayment,
   totalAmount,
   paymentAmount,
-  step,
   setPaymentAmount,
-  orderMenu,
 }) => {
+  const orderMenu = async () => {
+    const orderNum = await API.post(`${BASE_URL}/api/orders`, {
+      paymentId: 1,
+      paymentAmount,
+      totalAmount,
+      menu: [...selectMenu],
+    })
+
+    setPayment((prevPayment) => {
+      return {
+        ...prevPayment,
+        orderNum,
+      }
+    })
+    setStep('receipt')
+  }
+
   const amountList = [100, 500, 1000, 10000]
   return (
     <CashLayoutStyle>
@@ -51,7 +73,7 @@ const CashLayout = ({
         size="lg"
         variant="warning"
         disabled={step !== 'cash' || totalAmount > paymentAmount}
-        onClick={() => orderMenu({ id: 1, title: '현금' })}
+        onClick={() => orderMenu()}
       >
         현금 결제하기
       </Button>
