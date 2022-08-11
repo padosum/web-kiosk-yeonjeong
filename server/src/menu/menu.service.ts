@@ -1,16 +1,15 @@
-import { Injectable } from '@nestjs/common';
-import { _dbConn } from '../db';
+import { Inject, Injectable } from '@nestjs/common';
+import { MYSQL_CONNECTION } from 'src/constants';
 import { getAllCategory, getAllMenu } from '../db/query-statements/menu';
 import { ReadMenuDto } from './dto/read-menu.dto';
 
 @Injectable()
 export class MenuService {
+  constructor(@Inject(MYSQL_CONNECTION) private conn: any) {}
   async getAllMenu(): Promise<ReadMenuDto> {
-    const conn = await _dbConn.getConnection();
-
     try {
-      const [categories]: any = await conn.query(getAllCategory());
-      const [menu]: any = await conn.query(getAllMenu());
+      const [categories]: any = await this.conn.query(getAllCategory());
+      const [menu]: any = await this.conn.query(getAllMenu());
 
       const allMenu = menu.map((item) => {
         const {
@@ -50,7 +49,7 @@ export class MenuService {
     } catch (e) {
       throw new Error(e);
     } finally {
-      conn.release();
+      this.conn.release();
     }
   }
 }
