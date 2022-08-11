@@ -5,6 +5,8 @@ import Button from '../common/Button'
 import styled from 'styled-components'
 import ConfirmModal from '../common/ConfirmModal'
 import CloseButton from '../common/CloseButton'
+import LoadingIndicator from '../common/LoadingIndicator'
+import API from '../../util/api'
 
 const PaymentLayout = styled.div`
   width: 55rem;
@@ -25,15 +27,42 @@ const ButtonWrapper = styled.div`
   padding: 1.25rem;
 `
 
-const Payment = ({ onSubmit, setLoading, setStep, setSelectMenu }) => {
-  const [modalVisible, setModalVisible] = useState(false)
+const BASE_URL = process.env.REACT_APP_API_HOST
 
-  const handleCashPayment = () => {
-    onSubmit({ id: 1, title: '현금' })
+const PaymentModal = ({ setStep, selectMenu, setPayment, totalAmount }) => {
+  const [modalVisible, setModalVisible] = useState(false)
+  const [loading, setLoading] = useState(false)
+
+  const orderMenuByCard = async () => {
+    const orderNum = await API.post(`${BASE_URL}/api/orders`, {
+      paymentId: 2,
+      paymentAmount: totalAmount,
+      totalAmount,
+      menu: [...selectMenu],
+    })
+
+    setPayment((prevPayment) => {
+      return {
+        ...prevPayment,
+        orderNum,
+      }
+    })
+
+    setStep('receipt')
   }
 
-  const handleCardPayment = () => {
-    setLoading((prevLoading) => !prevLoading)
+  const handleClickPayment = ({ id, title }) => {
+    setPayment({
+      id,
+      title,
+    })
+
+    if (id === 1) {
+      setStep('cash')
+      return
+    }
+
+    setLoading(true)
 
     const MIN_SECONDS = 3
     const MAX_SECONDS = 7
@@ -41,13 +70,14 @@ const Payment = ({ onSubmit, setLoading, setStep, setSelectMenu }) => {
       Math.random() * (MAX_SECONDS - MIN_SECONDS + 1) + MIN_SECONDS
     )
     setTimeout(() => {
-      setLoading((prevLoading) => !prevLoading)
-      onSubmit({ id: 2, title: '카드' })
+      setLoading(false)
+      orderMenuByCard()
     }, rand * 1000)
   }
 
   return (
     <>
+      {loading && <LoadingIndicator title="결제 중입니다."></LoadingIndicator>}
       <Modal>
         <ButtonWrapper>
           <CloseButton
@@ -61,10 +91,18 @@ const Payment = ({ onSubmit, setLoading, setStep, setSelectMenu }) => {
         <PaymentLayout>
           <Container title="결제수단 선택">
             <ButtonGroupWrapper>
-              <Button size="lg" variant="success" onClick={handleCashPayment}>
+              <Button
+                size="lg"
+                variant="success"
+                onClick={() => handleClickPayment({ id: 1, title: '현금' })}
+              >
                 현금
               </Button>
-              <Button size="lg" variant="success" onClick={handleCardPayment}>
+              <Button
+                size="lg"
+                variant="success"
+                onClick={() => handleClickPayment({ id: 2, title: '카드' })}
+              >
                 카드
               </Button>
             </ButtonGroupWrapper>
@@ -78,7 +116,6 @@ const Payment = ({ onSubmit, setLoading, setStep, setSelectMenu }) => {
           onAccept={() => {
             setModalVisible(false)
             setStep('main')
-            setSelectMenu([])
           }}
         ></ConfirmModal>
       )}
@@ -86,4 +123,4 @@ const Payment = ({ onSubmit, setLoading, setStep, setSelectMenu }) => {
   )
 }
 
-export default Payment
+export default PaymentModal

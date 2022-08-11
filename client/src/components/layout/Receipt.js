@@ -53,19 +53,15 @@ const MessageWrapper = styled.div`
 `
 
 const Receipt = ({
-  orderNum,
+  payment,
   orderMenu,
-  paymentId,
-  paymentTitle,
   paymentAmount,
   totalAmount,
   setStep,
-  setSelectMenu,
 }) => {
   const [counter, setCounter] = useState(10)
   const handleNextStep = () => {
     setStep('main')
-    setSelectMenu([])
   }
 
   useEffect(() => {
@@ -83,6 +79,7 @@ const Receipt = ({
   useKeyEscClose(() => handleNextStep)
 
   const changes = paymentAmount - totalAmount
+  const { orderNum, id: paymentId, title: paymentTitle } = payment
   return (
     <Modal animation="pop">
       <ButtonWrapper>
