@@ -1,6 +1,6 @@
-import { Injectable } from '@nestjs/common';
-import { _dbConn } from 'src/db';
+import { Inject, Injectable } from '@nestjs/common';
 import Imysql from 'mysql2/typings/mysql/lib/protocol/packets';
+import { MYSQL_CONNECTION } from 'src/constants';
 import {
   getOrderNum,
   insertOrders,
@@ -10,16 +10,15 @@ import { OrdersRequestDto } from './dto/orders.request.dto';
 
 @Injectable()
 export class OrdersService {
+  constructor(@Inject(MYSQL_CONNECTION) private conn: any) {}
   async create(orders: OrdersRequestDto): Promise<number> {
     const { paymentId, paymentAmount, totalAmount, menu } = orders;
 
-    const conn = await _dbConn.getConnection();
-
     try {
-      await conn.beginTransaction();
+      await this.conn.beginTransaction();
 
       const [newOrder]: [Imysql.ResultSetHeader, Imysql.FieldPacket[]] =
-        await conn.query(insertOrders(), [
+        await this.conn.query(insertOrders(), [
           paymentId,
           paymentAmount,
           totalAmount,
@@ -31,7 +30,7 @@ export class OrdersService {
 
         for (let i = 0; i < item.quantity; i++) {
           insertOrderHasMenu.push(
-            conn.query(insertOrdersHasMenu(), [
+            this.conn.query(insertOrdersHasMenu(), [
               newOrder.insertId,
               menuId,
               optionDetailId.split(',').join('^'),
@@ -42,18 +41,18 @@ export class OrdersService {
 
       await Promise.all(insertOrderHasMenu);
 
-      await conn.commit();
+      await this.conn.commit();
 
       const [orderNum]: [Imysql.ResultSetHeader, Imysql.FieldPacket[]] =
-        await conn.query(getOrderNum(), [newOrder.insertId]);
+        await this.conn.query(getOrderNum(), [newOrder.insertId]);
 
       return orderNum[0].orderNum;
     } catch (err) {
-      await conn.rollback();
-      conn.release();
+      await this.conn.rollback();
+      this.conn.release();
       console.log('mysql query error', err);
     } finally {
-      conn.release();
+      this.conn.release();
     }
   }
 }
