@@ -64,7 +64,7 @@ const RadioButtonLabel = styled.span`
   align-items: center;
   padding: 0.375em 0.75em 0.375em 2.375em;
   border-radius: 99em;
-  transition: 0.25s ease;
+
   font-size: 1.625rem;
   ::before {
     position: absolute;
@@ -73,16 +73,17 @@ const RadioButtonLabel = styled.span`
     content: '';
     background-color: #fff;
     margin-right: 0.375em;
-    transition: 0.25s ease;
+    transition: 0.25s linear;
   }
 `
 const RadioButton = styled.input`
   position: absolute;
   left: -9999px;
   &:checked + ${RadioButtonLabel} {
+    animation: blink-effect 0.25s;
     ::before {
       position: absolute;
-      transition: 0.25s ease;
+      transition: 0.25s linear;
       width: 2px;
       height: 2px;
       top: 0.5rem;
@@ -91,6 +92,12 @@ const RadioButton = styled.input`
         4px 6px, 6px 6px, 8px 6px, 10px 6px, 2px 8px, 4px 8px, 6px 8px, 8px 8px,
         10px 8px, 12px 8px, 2px 10px, 4px 10px, 6px 10px, 8px 10px, 10px 10px,
         2px 12px, 4px 12px, 6px 12px, 8px 12px, 2px 14px, 4px 14px;
+    }
+  }
+
+  @keyframes blink-effect {
+    50% {
+      opacity: 0;
     }
   }
 `
