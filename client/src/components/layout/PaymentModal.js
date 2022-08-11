@@ -29,9 +29,11 @@ const ButtonWrapper = styled.div`
 
 const BASE_URL = process.env.REACT_APP_API_HOST
 
-const PaymentModal = ({ setStep, selectMenu, setPayment, totalAmount }) => {
+const PaymentModal = ({ setStep, selectMenu, setPayment }) => {
   const [modalVisible, setModalVisible] = useState(false)
   const [loading, setLoading] = useState(false)
+
+  const totalAmount = selectMenu.reduce((acc, curr) => acc + curr.price, 0)
 
   const orderMenuByCard = async () => {
     const orderNum = await API.post(`${BASE_URL}/api/orders`, {

@@ -9,16 +9,16 @@ import CashLayout from '../../layout/CashLayout'
 import OrderLayout from '../../layout/OrderLayout'
 
 const MenuItemsLayout = styled.section`
-  display: flex;
   grid-area: items;
+  display: flex;
   flex-direction: column;
   justify-content: center;
 `
 
 function Main() {
-  const [selectMenu, setSelectMenu] = useState([])
   const [step, setStep] = useState('main')
   const [payment, setPayment] = useState({})
+  const [selectMenu, setSelectMenu] = useState([])
   const [paymentAmount, setPaymentAmount] = useState(0)
 
   useEffect(() => {
@@ -30,8 +30,6 @@ function Main() {
   if (step === 'error') {
     return <h1>오류가 발생했습니다.</h1>
   }
-
-  const totalAmount = selectMenu.reduce((acc, curr) => acc + curr.price, 0)
 
   return (
     <>
@@ -48,7 +46,6 @@ function Main() {
         setStep={setStep}
         selectMenu={selectMenu}
         setPayment={setPayment}
-        totalAmount={totalAmount}
         paymentAmount={paymentAmount}
         setPaymentAmount={setPaymentAmount}
       ></CashLayout>
@@ -68,7 +65,6 @@ function Main() {
           setStep={setStep}
           selectMenu={selectMenu}
           setPayment={setPayment}
-          totalAmount={totalAmount}
         ></PaymentModal>
       )}
       {step === 'receipt' && (
@@ -76,7 +72,6 @@ function Main() {
           payment={payment}
           orderMenu={selectMenu}
           paymentAmount={paymentAmount}
-          totalAmount={totalAmount}
           setStep={setStep}
         ></Receipt>
       )}

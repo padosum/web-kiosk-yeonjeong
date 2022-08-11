@@ -19,10 +19,10 @@ const CashLayout = ({
   setStep,
   selectMenu,
   setPayment,
-  totalAmount,
   paymentAmount,
   setPaymentAmount,
 }) => {
+  const totalAmount = selectMenu.reduce((acc, curr) => acc + curr.price, 0)
   const orderMenu = async () => {
     const orderNum = await API.post(`${BASE_URL}/api/orders`, {
       paymentId: 1,
