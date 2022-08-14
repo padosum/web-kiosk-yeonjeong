@@ -7,7 +7,8 @@ const InputLabel = styled.label`
 `
 const InputWrapper = styled.div`
   position: relative;
-  display: inline-block;
+  display: flex;
+  align-items: center;
   margin: 0 1.125rem;
   ::before,
   ::after {
@@ -35,6 +36,7 @@ const InputWrapper = styled.div`
   }
 `
 const InputStyle = styled.input`
+  width: 100%;
   display: block;
   padding: 8px 12px;
   border: none;

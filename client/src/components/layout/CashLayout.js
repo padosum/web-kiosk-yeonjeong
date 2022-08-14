@@ -12,6 +12,7 @@ const CashLayoutStyle = styled.section`
   grid-area: cash;
   justify-content: space-around;
   padding-top: 1rem;
+  max-width: 21rem;
 `
 
 const CashLayout = ({

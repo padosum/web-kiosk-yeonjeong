@@ -102,6 +102,7 @@ const RadioButton = styled.input`
   }
 `
 const QuantityWrapper = styled.div`
+  display: flex;
   margin-top: 1.25rem;
 `
 const handleImgError = (e) => {
