@@ -6,28 +6,8 @@ import styled from 'styled-components'
 import ConfirmModal from '../common/ConfirmModal'
 import CloseButton from '../common/CloseButton'
 import LoadingIndicator from '../common/LoadingIndicator'
-import API from '../../util/api'
 import AlertModal from '../common/AlertModal'
 import useOrdersApi from '../../hooks/useOrdersApi'
-
-const PaymentLayout = styled.div`
-  width: 55rem;
-  padding: 0 4rem 4rem 4rem;
-  font-size: 2rem;
-`
-
-const ButtonGroupWrapper = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: space-around;
-  padding: 1rem;
-`
-
-const ButtonWrapper = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  padding: 1.25rem;
-`
 
 const PaymentModal = ({ setStep, selectMenu, setPayment }) => {
   const [modalVisible, setModalVisible] = useState(false)
@@ -131,5 +111,24 @@ const PaymentModal = ({ setStep, selectMenu, setPayment }) => {
     </>
   )
 }
+
+const PaymentLayout = styled.div`
+  width: 55rem;
+  padding: 0 4rem 4rem 4rem;
+  font-size: 2rem;
+`
+
+const ButtonGroupWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  padding: 1rem;
+`
+
+const ButtonWrapper = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  padding: 1.25rem;
+`
 
 export default PaymentModal

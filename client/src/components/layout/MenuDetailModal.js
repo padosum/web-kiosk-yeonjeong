@@ -8,103 +8,6 @@ import Modal from '../common/Modal'
 import ItemImageContainer from '../common/ItemImageContainer'
 import CloseButton from '../common/CloseButton'
 
-const DetailLayout = styled.div`
-  display: grid;
-  gap: 0.5rem;
-  grid-template-columns: 150px auto;
-  grid-template-rows: 2fr 1fr;
-  grid-template-areas:
-    'item option'
-    'footer footer';
-  width: 65rem;
-  padding: 2rem;
-  font-size: 1.5rem;
-`
-
-const ButtonWrapper = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  padding: 1.25rem;
-`
-
-const OptionLayout = styled.div`
-  grid-area: option;
-`
-const FooterLayout = styled.div`
-  grid-area: footer;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-`
-
-const PriceLayout = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  font-size: 1.5rem;
-`
-
-const OptionWrapper = styled.div`
-  width: 100%;
-  display: flex;
-  align-items: center;
-  font-size: 1.25rem;
-  justify-content: space-around;
-`
-const Item = styled.label`
-  display: flex;
-  cursor: pointer;
-  font-weight: 500;
-  position: relative;
-  overflow: hidden;
-  margin-bottom: 0.375em;
-`
-const RadioButtonLabel = styled.span`
-  display: flex;
-  align-items: center;
-  padding: 0.375em 0.75em 0.375em 2.375em;
-  border-radius: 99em;
-
-  font-size: 1.625rem;
-  ::before {
-    position: absolute;
-    display: flex;
-    flex-shrink: 0;
-    content: '';
-    background-color: #fff;
-    margin-right: 0.375em;
-    transition: 0.25s linear;
-  }
-`
-const RadioButton = styled.input`
-  position: absolute;
-  left: -9999px;
-  &:checked + ${RadioButtonLabel} {
-    animation: blink-effect 0.25s;
-    ::before {
-      position: absolute;
-      transition: 0.25s linear;
-      width: 2px;
-      height: 2px;
-      top: 0.5rem;
-      left: 2rem;
-      box-shadow: 2px 2px, 4px 2px, 2px 4px, 4px 4px, 6px 4px, 8px 4px, 2px 6px,
-        4px 6px, 6px 6px, 8px 6px, 10px 6px, 2px 8px, 4px 8px, 6px 8px, 8px 8px,
-        10px 8px, 12px 8px, 2px 10px, 4px 10px, 6px 10px, 8px 10px, 10px 10px,
-        2px 12px, 4px 12px, 6px 12px, 8px 12px, 2px 14px, 4px 14px;
-    }
-  }
-
-  @keyframes blink-effect {
-    50% {
-      opacity: 0;
-    }
-  }
-`
-const QuantityWrapper = styled.div`
-  display: flex;
-  margin-top: 1.25rem;
-`
 const handleImgError = (e) => {
   e.target.src = 'images/1.png'
 }
@@ -312,4 +215,102 @@ const MenuDetailModal = ({
     </Modal>
   )
 }
+
+const DetailLayout = styled.div`
+  display: grid;
+  gap: 0.5rem;
+  grid-template-columns: 150px auto;
+  grid-template-rows: 2fr 1fr;
+  grid-template-areas:
+    'item option'
+    'footer footer';
+  width: 65rem;
+  padding: 2rem;
+  font-size: 1.5rem;
+`
+
+const ButtonWrapper = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  padding: 1.25rem;
+`
+
+const OptionLayout = styled.div`
+  grid-area: option;
+`
+const FooterLayout = styled.div`
+  grid-area: footer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`
+
+const PriceLayout = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  font-size: 1.5rem;
+`
+
+const OptionWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  font-size: 1.25rem;
+  justify-content: space-around;
+`
+const Item = styled.label`
+  display: flex;
+  cursor: pointer;
+  font-weight: 500;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 0.375em;
+`
+const RadioButtonLabel = styled.span`
+  display: flex;
+  align-items: center;
+  padding: 0.375em 0.75em 0.375em 2.375em;
+  border-radius: 99em;
+
+  font-size: 1.625rem;
+  ::before {
+    position: absolute;
+    display: flex;
+    flex-shrink: 0;
+    content: '';
+    background-color: #fff;
+    margin-right: 0.375em;
+    transition: 0.25s linear;
+  }
+`
+const RadioButton = styled.input`
+  position: absolute;
+  left: -9999px;
+  &:checked + ${RadioButtonLabel} {
+    animation: blink-effect 0.25s;
+    ::before {
+      position: absolute;
+      transition: 0.25s linear;
+      width: 2px;
+      height: 2px;
+      top: 0.5rem;
+      left: 2rem;
+      box-shadow: 2px 2px, 4px 2px, 2px 4px, 4px 4px, 6px 4px, 8px 4px, 2px 6px,
+        4px 6px, 6px 6px, 8px 6px, 10px 6px, 2px 8px, 4px 8px, 6px 8px, 8px 8px,
+        10px 8px, 12px 8px, 2px 10px, 4px 10px, 6px 10px, 8px 10px, 10px 10px,
+        2px 12px, 4px 12px, 6px 12px, 8px 12px, 2px 14px, 4px 14px;
+    }
+  }
+
+  @keyframes blink-effect {
+    50% {
+      opacity: 0;
+    }
+  }
+`
+const QuantityWrapper = styled.div`
+  display: flex;
+  margin-top: 1.25rem;
+`
 export default MenuDetailModal

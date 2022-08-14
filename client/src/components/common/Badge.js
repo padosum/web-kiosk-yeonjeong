@@ -24,6 +24,15 @@ const VARIANTS = {
   `,
 }
 
+const Badge = ({ variant, children, icon, position }) => {
+  const variantStyle = VARIANTS[variant]
+  return (
+    <BadgeStyle variantStyle={variantStyle} icon={icon} position={position}>
+      {children}
+    </BadgeStyle>
+  )
+}
+
 const BadgeStyle = styled.span`
   ${(p) => p.variantStyle}
 
@@ -65,14 +74,4 @@ const BadgeStyle = styled.span`
   box-shadow: 0 0.5em var(--badge-bg-color), 0 -0.5em var(--badge-bg-color),
     0.5em 0 var(--badge-bg-color), -0.5em 0 var(--badge-bg-color);
 `
-
-const Badge = ({ variant, children, icon, position }) => {
-  const variantStyle = VARIANTS[variant]
-  return (
-    <BadgeStyle variantStyle={variantStyle} icon={icon} position={position}>
-      {children}
-    </BadgeStyle>
-  )
-}
-
 export default Badge

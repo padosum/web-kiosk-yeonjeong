@@ -4,23 +4,6 @@ import styled from 'styled-components'
 import Counter from '../common/Counter'
 import Button from '../common/Button'
 
-const OrderLayoutStyle = styled.section`
-  display: flex;
-  flex-direction: column;
-  grid-area: payment;
-  justify-content: space-around;
-`
-
-const TimerWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-`
-const TimerLabel = styled.label`
-  color: #fff;
-  font-size: 1.25rem;
-  margin-bottom: 1rem;
-`
-
 const OrderLayout = ({ selectMenu, step, setStep, setSelectMenu }) => {
   return (
     <OrderLayoutStyle>
@@ -49,5 +32,22 @@ const OrderLayout = ({ selectMenu, step, setStep, setSelectMenu }) => {
     </OrderLayoutStyle>
   )
 }
+
+const OrderLayoutStyle = styled.section`
+  display: flex;
+  flex-direction: column;
+  grid-area: payment;
+  justify-content: space-around;
+`
+
+const TimerWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+`
+const TimerLabel = styled.label`
+  color: #fff;
+  font-size: 1.25rem;
+  margin-bottom: 1rem;
+`
 
 export default OrderLayout
