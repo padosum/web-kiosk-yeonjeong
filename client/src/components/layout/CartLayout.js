@@ -5,6 +5,45 @@ import Container from '../common/Container'
 import ItemImageContainer from '../common/ItemImageContainer'
 import Badge from '../common/Badge'
 
+const CartLayout = ({ selectMenu, setSelectMenu, step }) => {
+  const handleRemoveMenu = ({ menuId, optionDetailId }) => {
+    const filterMenu = selectMenu.filter((menu) => {
+      return !(menu.menuId === menuId && menu.optionDetailId === optionDetailId)
+    })
+    setSelectMenu(filterMenu)
+  }
+
+  return (
+    <CartLayoutStyle>
+      {selectMenu.length > 0 &&
+        selectMenu.map((item) => {
+          return (
+            <SelectItemWrapper key={item.menuId + item.optionDetailId}>
+              <ButtonWrapper>
+                {step !== 'cash' && (
+                  <button onClick={() => handleRemoveMenu(item)}>X</button>
+                )}
+              </ButtonWrapper>
+              <Container title={item.title}>
+                <ItemImageContainer
+                  src={`images/${item.categoryId}.png`}
+                  alt="product"
+                ></ItemImageContainer>
+                <Badge variant="normal" icon={false}>
+                  {item.price.toLocaleString()}
+                </Badge>
+              </Container>
+              <OptionWrapper>
+                <p>{item.optionTitle.split(',').join('/')}</p>
+                <p>수량: {item.quantity}개</p>
+              </OptionWrapper>
+            </SelectItemWrapper>
+          )
+        })}
+    </CartLayoutStyle>
+  )
+}
+
 const CartLayoutStyle = styled.section`
   display: flex;
   grid-area: cart;
@@ -72,44 +111,5 @@ const OptionWrapper = styled.span`
   margin: 0.25rem;
   font-size: 1.25rem;
 `
-
-const CartLayout = ({ selectMenu, setSelectMenu, step }) => {
-  const handleRemoveMenu = ({ menuId, optionDetailId }) => {
-    const filterMenu = selectMenu.filter((menu) => {
-      return !(menu.menuId === menuId && menu.optionDetailId === optionDetailId)
-    })
-    setSelectMenu(filterMenu)
-  }
-
-  return (
-    <CartLayoutStyle>
-      {selectMenu.length > 0 &&
-        selectMenu.map((item) => {
-          return (
-            <SelectItemWrapper key={item.menuId + item.optionDetailId}>
-              <ButtonWrapper>
-                {step !== 'cash' && (
-                  <button onClick={() => handleRemoveMenu(item)}>X</button>
-                )}
-              </ButtonWrapper>
-              <Container title={item.title}>
-                <ItemImageContainer
-                  src={`images/${item.categoryId}.png`}
-                  alt="product"
-                ></ItemImageContainer>
-                <Badge variant="normal" icon={false}>
-                  {item.price.toLocaleString()}
-                </Badge>
-              </Container>
-              <OptionWrapper>
-                <p>{item.optionTitle.split(',').join('/')}</p>
-                <p>수량: {item.quantity}개</p>
-              </OptionWrapper>
-            </SelectItemWrapper>
-          )
-        })}
-    </CartLayoutStyle>
-  )
-}
 
 export default CartLayout

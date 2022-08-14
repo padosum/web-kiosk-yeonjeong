@@ -1,6 +1,14 @@
 import React from 'react'
 import styled from 'styled-components'
 
+function Tab({ id, value, onClickTab, active }) {
+  return (
+    <Item onClick={() => onClickTab(id)}>
+      <ItemText active={active}>{value}</ItemText>
+    </Item>
+  )
+}
+
 const Item = styled.li`
   flex: 0 0 10rem;
   list-style: none;
@@ -26,13 +34,5 @@ const ItemText = styled.a`
     color: #e6584c;
   }
 `
-
-function Tab({ id, value, onClickTab, active }) {
-  return (
-    <Item onClick={() => onClickTab(id)}>
-      <ItemText active={active}>{value}</ItemText>
-    </Item>
-  )
-}
 
 export default Tab

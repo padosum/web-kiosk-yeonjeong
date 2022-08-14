@@ -1,6 +1,20 @@
 import React from 'react'
 import styled, { css } from 'styled-components'
 
+const handleModalClick = (e) => {
+  e.stopPropagation()
+}
+
+const Modal = ({ children, onModalOverlayClick, animation }) => {
+  return (
+    <ModalOverlay onClick={onModalOverlayClick}>
+      <ModalContainer onClick={handleModalClick} animation={animation}>
+        {children}
+      </ModalContainer>
+    </ModalOverlay>
+  )
+}
+
 const ModalOverlay = styled.div`
   display: flex;
   align-items: center;
@@ -32,19 +46,5 @@ const ModalContainer = styled.div`
       }
     `}
 `
-
-const handleModalClick = (e) => {
-  e.stopPropagation()
-}
-
-const Modal = ({ children, onModalOverlayClick, animation }) => {
-  return (
-    <ModalOverlay onClick={onModalOverlayClick}>
-      <ModalContainer onClick={handleModalClick} animation={animation}>
-        {children}
-      </ModalContainer>
-    </ModalOverlay>
-  )
-}
 
 export default Modal

@@ -5,53 +5,6 @@ import Container from '../common/Container'
 import CloseButton from '../common/CloseButton'
 import { useKeyEscClose } from '../../hooks/useKeyEscClose'
 
-const ReceiptWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 42rem;
-  padding: 4rem;
-  background-color: #fff;
-  padding: 1rem;
-  font-size: 1.8rem;
-`
-
-const MenuWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  flex-basis: 20rem;
-  flex-grow: 1;
-`
-
-const PaymentWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  padding: 1rem;
-  border-top: 4px dotted #000;
-`
-const Item = styled.p`
-  margin-bottom: 1rem;
-  word-break: keep-all;
-`
-const ItemOption = styled.span`
-  font-size: 1.5rem;
-`
-
-const ButtonWrapper = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  padding: 1rem 1.25rem 0 1.25rem;
-`
-
-const MessageWrapper = styled.div`
-  width: 100%;
-  padding-top: 1rem;
-  border-top: 4px dotted #000;
-  word-break: keep-all;
-  text-align: center;
-`
-
 const Receipt = ({ payment, orderMenu, paymentAmount, setStep }) => {
   const [counter, setCounter] = useState(10)
   const handleNextStep = () => {
@@ -111,5 +64,52 @@ const Receipt = ({ payment, orderMenu, paymentAmount, setStep }) => {
     </Modal>
   )
 }
+
+const ReceiptWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 42rem;
+  padding: 4rem;
+  background-color: #fff;
+  padding: 1rem;
+  font-size: 1.8rem;
+`
+
+const MenuWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex-basis: 20rem;
+  flex-grow: 1;
+`
+
+const PaymentWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 1rem;
+  border-top: 4px dotted #000;
+`
+const Item = styled.p`
+  margin-bottom: 1rem;
+  word-break: keep-all;
+`
+const ItemOption = styled.span`
+  font-size: 1.5rem;
+`
+
+const ButtonWrapper = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  padding: 1rem 1.25rem 0 1.25rem;
+`
+
+const MessageWrapper = styled.div`
+  width: 100%;
+  padding-top: 1rem;
+  border-top: 4px dotted #000;
+  word-break: keep-all;
+  text-align: center;
+`
 
 export default Receipt

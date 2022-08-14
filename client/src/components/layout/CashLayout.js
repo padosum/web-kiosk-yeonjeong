@@ -1,18 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import useOrdersApi from '../../hooks/useOrdersApi'
-import API from '../../util/api'
 import AlertModal from '../common/AlertModal'
 import Button from '../common/Button'
 import Input from '../common/Input'
-
-const CashLayoutStyle = styled.section`
-  display: flex;
-  flex-direction: column;
-  grid-area: cash;
-  justify-content: space-around;
-  padding-top: 1rem;
-`
 
 const CashLayout = ({
   step,
@@ -93,5 +84,14 @@ const CashLayout = ({
     </>
   )
 }
+
+const CashLayoutStyle = styled.section`
+  display: flex;
+  flex-direction: column;
+  grid-area: cash;
+  justify-content: space-around;
+  padding-top: 1rem;
+  max-width: 21rem;
+`
 
 export default CashLayout

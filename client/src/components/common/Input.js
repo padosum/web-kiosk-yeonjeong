@@ -1,13 +1,34 @@
 import React from 'react'
 import styled from 'styled-components'
 
+const Input = ({ title = '', value, color }) => {
+  return (
+    <>
+      {title !== '' && (
+        <InputLabel htmlFor={title} color={color}>
+          {title}
+        </InputLabel>
+      )}
+      <InputWrapper>
+        <InputStyle
+          id={title}
+          deafultValue="1"
+          value={value}
+          readOnly={true}
+        ></InputStyle>
+      </InputWrapper>
+    </>
+  )
+}
+
 const InputLabel = styled.label`
   font-size: 1.5rem;
   color: ${(props) => props.color || 'black'};
 `
 const InputWrapper = styled.div`
   position: relative;
-  display: inline-block;
+  display: flex;
+  align-items: center;
   margin: 0 1.125rem;
   ::before,
   ::after {
@@ -35,6 +56,7 @@ const InputWrapper = styled.div`
   }
 `
 const InputStyle = styled.input`
+  width: 100%;
   display: block;
   padding: 8px 12px;
   border: none;
@@ -42,24 +64,5 @@ const InputStyle = styled.input`
   text-align: center;
   font-size: 1.5rem;
 `
-const Input = ({ title = '', value, color }) => {
-  return (
-    <>
-      {title !== '' && (
-        <InputLabel htmlFor={title} color={color}>
-          {title}
-        </InputLabel>
-      )}
-      <InputWrapper>
-        <InputStyle
-          id={title}
-          deafultValue="1"
-          value={value}
-          readOnly={true}
-        ></InputStyle>
-      </InputWrapper>
-    </>
-  )
-}
 
 export default Input

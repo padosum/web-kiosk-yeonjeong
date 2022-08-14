@@ -5,39 +5,6 @@ import LoadingIndicator from '../common/LoadingIndicator'
 import Tab from './Tab'
 import TabPanel from './TabPanel'
 
-const TabsWrapper = styled.section`
-  position: relative;
-  width: 100%;
-  height: 5rem;
-  display: flex;
-  overflow: auto;
-  background-color: #f8f8f8;
-  border-radius: 10px;
-  border: 4px solid #353535;
-  user-select: none;
-  -moz-user-select: none;
-  -webkit-user-drag: none;
-  -webkit-user-select: none;
-  -ms-user-select: none;
-  box-shadow: inset -4px -4px 0px 0px #adafbc;
-`
-const TabsContainer = styled.ul`
-  display: flex;
-  width: 100%;
-  white-space: nowrap;
-  overflow: auto;
-  -ms-overflow-style: -ms-autohiding-scrollbar;
-  -webkit-overflow-scrolling: touch;
-  user-select: none;
-  -moz-user-select: none;
-  -webkit-user-drag: none;
-  -webkit-user-select: none;
-  -ms-user-select: none;
-  &::-webkit-scrollbar {
-    display: none;
-  }
-`
-
 const Tabs = ({ step, setStep, selectMenu, setSelectMenu }) => {
   const [menu, error, loading] = useMenuApi({ step })
   const [tabIndex, setTabIndex] = useState(0)
@@ -129,5 +96,38 @@ const Tabs = ({ step, setStep, selectMenu, setSelectMenu }) => {
     </>
   )
 }
+
+const TabsWrapper = styled.section`
+  position: relative;
+  width: 100%;
+  height: 5rem;
+  display: flex;
+  overflow: auto;
+  background-color: #f8f8f8;
+  border-radius: 10px;
+  border: 4px solid #353535;
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-drag: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  box-shadow: inset -4px -4px 0px 0px #adafbc;
+`
+const TabsContainer = styled.ul`
+  display: flex;
+  width: 100%;
+  white-space: nowrap;
+  overflow: auto;
+  -ms-overflow-style: -ms-autohiding-scrollbar;
+  -webkit-overflow-scrolling: touch;
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-drag: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+`
 
 export default Tabs

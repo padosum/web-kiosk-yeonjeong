@@ -1,6 +1,15 @@
 import React from 'react'
 import styled from 'styled-components'
 
+const Container = ({ title, children }) => {
+  return (
+    <ContainerStyle>
+      <ContainerTitle>{title}</ContainerTitle>
+      {children}
+    </ContainerStyle>
+  )
+}
+
 const ContainerStyle = styled.div`
   display: flex;
   flex-direction: column;
@@ -21,14 +30,5 @@ const ContainerTitle = styled.h3`
   background-color: #fff;
   word-break: keep-all;
 `
-
-const Container = ({ title, children }) => {
-  return (
-    <ContainerStyle>
-      <ContainerTitle>{title}</ContainerTitle>
-      {children}
-    </ContainerStyle>
-  )
-}
 
 export default Container

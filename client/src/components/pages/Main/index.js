@@ -8,13 +8,6 @@ import CartLayout from '../../layout/CartLayout'
 import CashLayout from '../../layout/CashLayout'
 import OrderLayout from '../../layout/OrderLayout'
 
-const MenuItemsLayout = styled.section`
-  grid-area: items;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-`
-
 function Main() {
   const [step, setStep] = useState('main')
   const [payment, setPayment] = useState({})
@@ -78,5 +71,12 @@ function Main() {
     </>
   )
 }
+
+const MenuItemsLayout = styled.section`
+  grid-area: items;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+`
 
 export default Main

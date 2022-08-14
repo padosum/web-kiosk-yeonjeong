@@ -48,6 +48,22 @@ const VARIANTS = {
   `,
 }
 
+const Button = ({ size, variant, disabled = false, onClick, children }) => {
+  const sizeStyle = SIZES[size]
+  const variantStyle = VARIANTS[variant]
+
+  return (
+    <ButtonStyle
+      onClick={onClick}
+      sizeStyle={sizeStyle}
+      variantStyle={variantStyle}
+      disabled={disabled}
+    >
+      {children}
+    </ButtonStyle>
+  )
+}
+
 const ButtonStyle = styled.button`
   ${(p) => p.sizeStyle}
   ${(p) => p.variantStyle}
@@ -100,20 +116,5 @@ const ButtonStyle = styled.button`
       }
     `}
 `
-const Button = ({ size, variant, disabled = false, onClick, children }) => {
-  const sizeStyle = SIZES[size]
-  const variantStyle = VARIANTS[variant]
-
-  return (
-    <ButtonStyle
-      onClick={onClick}
-      sizeStyle={sizeStyle}
-      variantStyle={variantStyle}
-      disabled={disabled}
-    >
-      {children}
-    </ButtonStyle>
-  )
-}
 
 export default Button

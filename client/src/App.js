@@ -2,6 +2,20 @@ import styled from 'styled-components'
 import Main from './components/pages/Main'
 import GlobaStyle from './GlobalStyle'
 
+function App() {
+  return (
+    <>
+      <GlobaStyle />
+      <AppTitle>
+        <Image src="/images/logo.png" alt="logo"></Image>우아 키오스크
+      </AppTitle>
+      <MainPageLayout className="App">
+        <Main />
+      </MainPageLayout>
+    </>
+  )
+}
+
 const MainPageLayout = styled.div`
   width: 76.8rem;
   height: 80rem;
@@ -37,23 +51,10 @@ const Image = styled.img`
   width: 32px;
   height: 32px; ;
 `
+
 const AppTitle = styled.h1`
   display: flex;
   align-items: center;
 `
-
-function App() {
-  return (
-    <>
-      <GlobaStyle />
-      <AppTitle>
-        <Image src="/images/logo.png" alt="logo"></Image>우아 키오스크
-      </AppTitle>
-      <MainPageLayout className="App">
-        <Main />
-      </MainPageLayout>
-    </>
-  )
-}
 
 export default App

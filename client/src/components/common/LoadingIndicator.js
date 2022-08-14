@@ -1,6 +1,22 @@
 import React from 'react'
 import styled from 'styled-components'
 
+const LoadingIndicator = ({ title }) => {
+  return (
+    <LoadingIndicatorLayout>
+      <LoadingIndicatorContainer>
+        <LoadingIndicatorText>{title}</LoadingIndicatorText>
+        <LoadingIndicatorTextBox></LoadingIndicatorTextBox>
+        <LoadingIndicatorTextBox></LoadingIndicatorTextBox>
+        <LoadingIndicatorTextBox></LoadingIndicatorTextBox>
+      </LoadingIndicatorContainer>
+      <LoadingIndicatorProgressBar>
+        <Loading></Loading>
+      </LoadingIndicatorProgressBar>
+    </LoadingIndicatorLayout>
+  )
+}
+
 const LoadingIndicatorLayout = styled.div`
   display: flex;
   flex-direction: column;
@@ -17,9 +33,6 @@ const LoadingIndicatorLayout = styled.div`
 
 const LoadingIndicatorContainer = styled.div`
   width: 200px;
-  /* margin: 120px auto 0 auto; */
-  /* width: 80%; */
-  /* text-align: center; */
 `
 
 const LoadingIndicatorText = styled.p`
@@ -64,20 +77,5 @@ const Loading = styled.div`
   display: inline-block;
   animation: loading-bar 1.5s infinite;
 `
-const LoadingIndicator = ({ title }) => {
-  return (
-    <LoadingIndicatorLayout>
-      <LoadingIndicatorContainer>
-        <LoadingIndicatorText>{title}</LoadingIndicatorText>
-        <LoadingIndicatorTextBox></LoadingIndicatorTextBox>
-        <LoadingIndicatorTextBox></LoadingIndicatorTextBox>
-        <LoadingIndicatorTextBox></LoadingIndicatorTextBox>
-      </LoadingIndicatorContainer>
-      <LoadingIndicatorProgressBar>
-        <Loading></Loading>
-      </LoadingIndicatorProgressBar>
-    </LoadingIndicatorLayout>
-  )
-}
 
 export default LoadingIndicator
