@@ -5,11 +5,13 @@ import { ReadMenuDto } from './dto/read-menu.dto';
 
 @Injectable()
 export class MenuService {
-  constructor(@Inject(MYSQL_CONNECTION) private conn: any) {}
+  constructor(@Inject(MYSQL_CONNECTION) private pool: any) {}
   async getAllMenu(): Promise<ReadMenuDto> {
+    const conn = await this.pool.getConnection();
+
     try {
-      const [categories]: any = await this.conn.query(getAllCategory());
-      const [menu]: any = await this.conn.query(getAllMenu());
+      const [categories]: any = await conn.execute(getAllCategory());
+      const [menu]: any = await conn.execute(getAllMenu());
 
       const allMenu = menu.map((item) => {
         const {
@@ -49,7 +51,7 @@ export class MenuService {
     } catch (e) {
       throw new Error(e);
     } finally {
-      this.conn.release();
+      conn.release();
     }
   }
 }

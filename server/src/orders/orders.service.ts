@@ -10,15 +10,17 @@ import { OrdersRequestDto } from './dto/orders.request.dto';
 
 @Injectable()
 export class OrdersService {
-  constructor(@Inject(MYSQL_CONNECTION) private conn: any) {}
+  constructor(@Inject(MYSQL_CONNECTION) private pool: any) {}
   async create(orders: OrdersRequestDto): Promise<number> {
+    const conn = await this.pool.getConnection();
+
     const { paymentId, paymentAmount, totalAmount, menu } = orders;
 
     try {
-      await this.conn.beginTransaction();
+      await conn.beginTransaction();
 
       const [newOrder]: [Imysql.ResultSetHeader, Imysql.FieldPacket[]] =
-        await this.conn.query(insertOrders(), [
+        await conn.execute(insertOrders(), [
           paymentId,
           paymentAmount,
           totalAmount,
@@ -30,7 +32,7 @@ export class OrdersService {
 
         for (let i = 0; i < item.quantity; i++) {
           insertOrderHasMenu.push(
-            this.conn.query(insertOrdersHasMenu(), [
+            conn.execute(insertOrdersHasMenu(), [
               newOrder.insertId,
               menuId,
               optionDetailId.split(',').join('^'),
@@ -41,18 +43,17 @@ export class OrdersService {
 
       await Promise.all(insertOrderHasMenu);
 
-      await this.conn.commit();
+      await conn.commit();
 
       const [orderNum]: [Imysql.ResultSetHeader, Imysql.FieldPacket[]] =
-        await this.conn.query(getOrderNum(), [newOrder.insertId]);
+        await conn.execute(getOrderNum(), [newOrder.insertId]);
 
       return orderNum[0].orderNum;
     } catch (err) {
-      await this.conn.rollback();
-      this.conn.release();
+      await conn.rollback();
       console.log('mysql query error', err);
     } finally {
-      this.conn.release();
+      conn.release();
     }
   }
 }
