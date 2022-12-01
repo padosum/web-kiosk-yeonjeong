@@ -14,8 +14,7 @@ const dbProvider = {
       password: configService.get<string>('MYSQL_PW'),
       database: configService.get<string>('MYSQL_DB'),
     });
-    const conn = await pool.getConnection();
-    return conn;
+    return pool;
   },
 };
 
